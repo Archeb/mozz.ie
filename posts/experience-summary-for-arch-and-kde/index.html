@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="https://mozz.ie/">
+    <title>ArchLinux &#43; KDE 一周使用小结 - 蚊帐</title>
+    <meta name="description"
+        content="蚊子の第二次 Linux 挑战，堂堂开幕！">
+    
+    
+    <meta name="author" content="mozzie">
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/scss/style.min.8cfc2cbfa3045b86d83d069072970f07d42c0a725ca96062014a772e2d673366.css">
+    <link rel="icon" type="image/x-icon" href="/img/icon.png">
+    <meta name="view-transition" content="same-origin">
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+    
+    <meta property="og:title" content="ArchLinux &#43; KDE 一周使用小结" />
+<meta property="og:description" content="蚊子の第二次 Linux 挑战，堂堂开幕！" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mozz.ie/posts/experience-summary-for-arch-and-kde/" /><meta property="og:image" content="https://mozz.ie/assets/8854314f89b9e34d7201c.png" />
+<meta property="og:site_name" content="蚊帐" /><meta property="article:published_time" content="2022-06-27T00:00:00&#43;00:00" /><meta property="article:modified_time" content="2022-06-27T00:00:00&#43;00:00" />
+<meta property="article:section" content="日常" />
+<meta property="article:section" content="技术" />
+    
+</head>
+
+<body>
+    
+
+<div class="container" id="container">
+    <div class="bean bean-main">
+    <div class="avatar">
+        <img src="/img/icon.png" alt="蚊帐">
+    </div>
+    <div class="blog-name">蚊帐</div>
+    <div class="links">
+        <a class="link-item " href="/">
+            <div class="link-container">
+                <span class="link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none"><path d="M7.5 2.75a.75.75 0 0 0-1.5 0v3a1.75 1.75 0 0 0 1.543 1.738L6.527 9.993a3.868 3.868 0 0 0 .119 3.143l3.99 7.95c.149.298.363.535.614.693V12.3a1.5 1.5 0 1 1 1.5 0v9.48c.251-.158.465-.395.615-.692l3.99-7.951c.481-.96.526-2.137.118-3.143l-1.016-2.505A1.75 1.75 0 0 0 18 5.75v-3a.75.75 0 0 0-1.5 0v3a.25.25 0 0 1-.25.25h-8.5a.25.25 0 0 1-.25-.25v-3z" fill="currentColor"></path></g></svg></span>
+                <span class="link-text">&nbsp;文章</span>
+            </div>
+        </a>
+        
+        <a class="link-item " href="/categories/%e6%8a%80%e6%9c%af/">
+            <div class="link-container">
+                <span class="link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16"><g fill="none"><path d="M11 1a4 4 0 0 0-3.896 4.91l-5.051 5.235a1.986 1.986 0 0 0 2.842 2.774l5.007-5.072a4.002 4.002 0 0 0 5.062-4.382a.5.5 0 0 0-.85-.287L12 6.293L9.707 4l2.115-2.115a.5.5 0 0 0-.287-.85A4.032 4.032 0 0 0 10.999 1z" fill="currentColor"></path></g></svg></span>
+                <span class="link-text">&nbsp;技术</span>
+            </div>
+        </a>
+        
+        <a class="link-item " href="/categories/%E6%97%A5%E5%B8%B8/">
+            <div class="link-container">
+                <span class="link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M21.05 17.56l-17.97.94L3 17l17.98-.94l.07 1.5zM21 19.48H3v1.5h18v-1.5zM22 5v7c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h16c1.1 0 2 .9 2 2zm-2 1c-1.68 0-3.04.98-3.21 2.23c-.64-.73-2.73-2.73-6.54-2.73c-4.67 0-6.75 3-6.75 3s2.08 3 6.75 3c3.81 0 5.9-2 6.54-2.73C16.96 10.02 18.32 11 20 11V6z" fill="currentColor"></path></svg></span>
+                <span class="link-text">&nbsp;日常</span>
+            </div>
+        </a>
+        
+        <a class="link-item " href="/links/">
+            <div class="link-container">
+                <span class="link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M29.25 6.76a6 6 0 0 0-8.5 0l1.42 1.42a4 4 0 1 1 5.67 5.67l-8 8a4 4 0 1 1-5.67-5.66l1.41-1.42l-1.41-1.42l-1.42 1.42a6 6 0 0 0 0 8.5A6 6 0 0 0 17 25a6 6 0 0 0 4.27-1.76l8-8a6 6 0 0 0-.02-8.48z" fill="currentColor"></path><path d="M4.19 24.82a4 4 0 0 1 0-5.67l8-8a4 4 0 0 1 5.67 0A3.94 3.94 0 0 1 19 14a4 4 0 0 1-1.17 2.85L15.71 19l1.42 1.42l2.12-2.12a6 6 0 0 0-8.51-8.51l-8 8a6 6 0 0 0 0 8.51A6 6 0 0 0 7 28a6.07 6.07 0 0 0 4.28-1.76l-1.42-1.42a4 4 0 0 1-5.67 0z" fill="currentColor"></path></svg></span>
+                <span class="link-text">&nbsp;链接</span>
+            </div>
+        </a>
+        
+        <a class="link-item " href="/about/">
+            <div class="link-container">
+                <span class="link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M25 10l1.593 3l3.407.414l-2.5 2.253L28 19l-3-1.875L22 19l.5-3.333l-2.5-2.253L23.5 13l1.5-3z" fill="currentColor"></path><path d="M22 30h-2v-5a5.006 5.006 0 0 0-5-5H9a5.006 5.006 0 0 0-5 5v5H2v-5a7.008 7.008 0 0 1 7-7h6a7.008 7.008 0 0 1 7 7z" fill="currentColor"></path><path d="M12 4a5 5 0 1 1-5 5a5 5 0 0 1 5-5m0-2a7 7 0 1 0 7 7a7 7 0 0 0-7-7z" fill="currentColor"></path></svg></span>
+                <span class="link-text">&nbsp;关于</span>
+            </div>
+        </a>
+        
+    </div>
+    <div class="meta-info">
+        <span class="show">Mozzie © 2025<br />Made With ♥</span>
+        <span class="hide">Theme Candy 2 By <a href="https://github.com/Archeb/candy2-hugo">Candy2-Hugo</a></span>
+    </div>
+</div>
+    <div id="contained-containers" class="contained-containers">
+        <div class="contained-beans">
+            
+                        <a href="https://mozz.ie/posts/wdm-custom-combo-boardband/" class="bean bean-article" style="background-image: url('/assets/wdm-custom-combo-boardband/xgspon3A_764X452.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2025年4月19日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>波分单线复用笑传之Custom Combo Broadband</span>
+        <div class="article-summary">
+            只要一个￥38的波分复用器，巧妙解决小区单线入户但想多运营商接入的老生常谈问题
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/homeassistant-integration-writeup/" class="bean bean-article" style="background-image: url('/assets/homeassistant-integration-writeup/photo_2025-03-22_01-05-25.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2025年3月22日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>新柏石KNX协议智能家居网关接入 HomeAssistant</span>
+        <div class="article-summary">
+            只需要一根网线和一些小技巧，将开发商精装送的全屋智能设备接入HA，同时完整保留对原有系统的兼容，不具侵入性。
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/dual-cgnat-routeros-wireguard-tunnel/" class="bean bean-article" style="background-image: url('/img/cover1.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2025年1月24日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>双方无公网状态下 RouterOS 基于 WireGuard 的组网方案</span>
+        <div class="article-summary">
+            双方无公网但其中一方是 Full Cone NAT，这种情况下如何用 RouterOS 组网？要解决这个问题，你需要一台 Linux（或者容器）来帮路由器打洞。
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/gdcu-iptv-playlist/" class="bean bean-article" style="background-image: url('/img/cover1.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2024年10月27日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>广东联通 IPTV 鉴权&amp;抓源脚本（以及碎碎念）</span>
+        <div class="article-summary">
+            效果和用途同上一篇一样，只不过换成了联通的，两家的架构大差不差。至于我为什么从电信换成了联通，请看正文
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/gdct-iptv-auth-and-fetch-playlist/" class="bean bean-article" style="background-image: url('/img/cover1.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2023年6月25日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>广东电信 IPTV 自助鉴权 &#43; 获取播放列表</span>
+        <div class="article-summary">
+            懒得每次失效都要重新抓包了，研究发现可以重放鉴权包，现在可以在电脑完成整个过程了
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/why-not-pon-fttr/" class="bean bean-article" style="background-image: url('/assets/why-not-pon-fttr/large-20220408_banner_cms_webinar_ftth-rollout_760x428.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2023年5月7日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>为什么我们要拒绝 PON 方案的 FTTR</span>
+        <div class="article-summary">
+            “FTTR 是一套很神奇的几乎没有任何优点的方案。很少见到这样全是缺点几乎没优点的方案”
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/turn-windows-11-into-server-2022/" class="bean bean-article" style="background-image: url('/assets/turn-windows-11-into-server-2022/Snipaste_2023-01-02_11-57-49.png');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2023年1月2日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>把 Windows 11/10 不完全转换为 Windows Server 2022</span>
+        <div class="article-summary">
+            当你想使用一些 Windows Server 专属功能的时候，你也许想要这么做。比如我打算用的 DDA （Discrete Device Assignment）功能。本文不涉及关于如何激活的内容，请自备许可证。
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/usb-ecm-and-ipv6-for-openstick/" class="bean bean-article" style="background-image: url('/assets/usb-ecm-and-ipv6-for-openstick/photo_2022-10-04_18-29-37.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2022年10月5日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">日常</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>高通410随身WiFi的进阶USB网络共享和IPv6配置</span>
+        <div class="article-summary">
+            主要包括 USB CDC-ECM 的配置以让它被 RouterOS 识别，还有基于 ND Proxy 的 IPv6 共享
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/thinkbook-14-g4&#43;ara-amd-ryzen-hands-on/" class="bean bean-article" style="background-image: url('/assets/ThinkBook-14-G4&#43;ARA-AMD-Ryzen-Hands-On/image-20220802032903453.png');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2022年8月1日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">日常</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>ThinkBook 14&#43; 锐龙版上手体验</span>
+        <div class="article-summary">
+            2022年，史称6800H年。
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/experience-summary-for-arch-and-kde/" class="bean bean-article" style="background-image: url('/assets/8854314f89b9e34d7201c.png');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2022年6月27日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">日常</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>ArchLinux &#43; KDE 一周使用小结</span>
+        <div class="article-summary">
+            蚊子の第二次 Linux 挑战，堂堂开幕！
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/fix-fractional-scaling-edge-chrome-position/" class="bean bean-article" style="background-image: url('/assets/images/2021/11/----_gjs_20211127130445.png.webp');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2021年11月27日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">日常</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">水</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>修复 Edge/Chrome 在 GNOME 分数缩放下的窗口位置问题</span>
+        <div class="article-summary">
+            从上周开始，老莱弄了个“Daily Driver CHALLENGE”，然后我也跟了一波风
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/extracting-iptv-live-streams/" class="bean bean-article" style="background-image: url('/img/cover1.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2021年4月12日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">日常</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">网络</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>轻松抓取并解析广东电信 IPTV 全部直播源</span>
+        <div class="article-summary">
+            老爸说想在卧室看电视，网上的电视直播软件大多都不怎么稳定，还有广告。而 GitHub 上的 IPTV 项目里的源清晰度也都不咋地。自己动手，丰衣足食，自己从机顶盒里抓吧！
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/ultimate-virtual-monitor-solution-indirect-display/" class="bean bean-article" style="background-image: url('/assets/images/2021/04/----1.png.webp');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2021年4月11日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>虚拟显示器终极解决方案 IndirectDisplay</span>
+        <div class="article-summary">
+            自从上了大学，因为学校在珠海家在广州距离不算远，所以我经常两头跑。别人两头跑带个笔记本也就好了；我虽
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/pve-based-home-network/" class="bean bean-article" style="background-image: url('/assets/images/size/w1000/2021/03/image.png.webp');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2021年3月6日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">网络</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>基于PVE的新网络架构 - 踩坑回顾</span>
+        <div class="article-summary">
+            用 LXC 容器来跑 OpenWRT 虽然很香，但也有一些坑。
+        </div>
+    </div>
+</a>
+                        
+                        <div class="bean-space"></div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="modal"
+                style="visibility: visible; background-color: rgba(0, 0, 0, 0.5); backdrop-filter: blur(20px);">
+                <div class="article-toc">
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装--基本配置">安装 &amp; 基本配置</a>
+      <ul>
+        <li><a href="#refind引导配置">rEFInd引导配置</a></li>
+        <li><a href="#挂载目录">挂载目录</a></li>
+      </ul>
+    </li>
+    <li><a href="#分数缩放">分数缩放</a></li>
+    <li><a href="#美化">美化</a>
+      <ul>
+        <li><a href="#为无边框自绘窗口添加阴影">为无边框/自绘窗口添加阴影</a></li>
+      </ul>
+    </li>
+    <li><a href="#软件">软件</a>
+      <ul>
+        <li><a href="#输入法">输入法</a></li>
+        <li><a href="#wine-微信">Wine 微信</a></li>
+        <li><a href="#microsoft-to-do">Microsoft To-Do</a></li>
+        <li><a href="#游戏">游戏</a></li>
+        <li><a href="#android-模拟器">Android 模拟器</a></li>
+      </ul>
+    </li>
+    <li><a href="#小结">小结</a></li>
+  </ul>
+</nav>
+                </div>
+                <div class="modal-visible-container">
+                <div class="bean bean-read" style="transform: translate(0, 0);">
+                    <div class="modal-close">×</div>
+                    <div class="article-cover"
+                        style="background-image: url('/assets/8854314f89b9e34d7201c.png');">
+                        <div></div>
+                        <div class="article-title">
+                            ArchLinux &#43; KDE 一周使用小结
+                            <div class="article-category">
+                                
+                                <div class="category-item">
+                                    <div class="item-text">日常</div>
+                                </div>
+                                
+                                <div class="category-item">
+                                    <div class="item-text">技术</div>
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article-banner">
+                        <div id="banner-progressbar"></div>
+                        <div class="banner-content">
+                            
+                            <div class="banner-author">
+                                
+                                <div class="author-avatar">
+                                    <img src="/img/icon.png" alt="mozzie">
+                                </div>
+                                
+                                <span class="author-name">mozzie</span>
+                                <span class="publish-time">2022年6月27日</span>
+                                <span class="small-title">ArchLinux &#43; KDE 一周使用小结</span>
+                            </div>
+                            <div class="banner-tools">
+                                <span class="reading-time">阅读共需 2 分钟</span>
+                            </div>
+                        </div>
+                        <div class="mobile-close-btn"><svg xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32">
+                                <path
+                                    d="M24 9.4L22.6 8L16 14.6L9.4 8L8 9.4l6.6 6.6L8 22.6L9.4 24l6.6-6.6l6.6 6.6l1.4-1.4l-6.6-6.6L24 9.4z"
+                                    fill="currentColor"></path>
+                            </svg></div>
+                    </div>
+                    <div class="article-content">
+                        <p>终于考完了，又来到一个学期末的长草期。没事可干的我在把家里卧室也升级到万兆之后，便蠢蠢欲动想找一个新的什么东西来折腾。</p>
+<p>刚好同样也是在半年前，大二上的期末，我安装了基于 GNOME 桌面环境的 Ubuntu 21 进行了「Linux 30天挑战」——我似乎忘了向大家报告这个挑战最后的结果：很遗憾，在坚持了大半个月之后失败了。</p>
+<p>而究其失败的根本原因是GNOME的分数缩放有一系列的 BUG，包括但不限于 flameshot 黑屏/崩溃/选取不全、electron 应用全屏会黑屏（Jellyfin Media Player）、部分 QT 应用缩放失效（WPS、网易云音乐）以及 UI 错位等（欧路词典）</p>
+<p>这一系列小毛病让我的桌面体验虽然能用，但是极度不爽；更别说一更新就爆炸的 CSGO 了……总之，我没有找到解决这些问题的好办法，最后还是回归了 Windows。</p>
+<p>但是这只是一时的妥协，而我依然希望继续使用 Linux 桌面。所以我想，KDE 会不会是一个新的出路？抱着这个念头，我下载了 ArchLinux ISO。因为在我看来，中文生态最好的两个发行版就是 Ubuntu 和 Arch 了；而我这种懒癌晚期是极度讨厌手动打包或者安装应用的。所以第二次 Linux 挑战，在 Arch 上堂堂开幕！</p>
+<h2 id="安装--基本配置">安装 &amp; 基本配置</h2>
+<p>安装方面，没什么好说的，就是跟着 Wiki 的指引下载并且配置自己需要的软件包就好了，我也不是第一次装 Arch 了。</p>
+<h3 id="refind引导配置">rEFInd引导配置</h3>
+<pre tabindex="0"><code># 只自动搜索外置设备和光驱的 EFI 项目
+scanfor external,optical,manual
+
+# 手动配置 Windows 和 Linux 的 entry
+menuentry &#34;Arch Linux&#34; { 
+  icon /EFI/refind/themes/rEFInd-minimal/icons/os_arch.png
+  volume  &#34;Arch Linux&#34; 
+  loader  /boot/vmlinuz-linux 
+  initrd  /boot/initramfs-linux.img 
+  options &#34;root=PARTUUID=c2ae9da6-29ce-c24b-bbbb-b3e33340c681 rw add_efi_memmap&#34; 
+  submenuentry &#34;Boot using fallback initramfs&#34; { 
+    initrd /boot/initramfs-linux-fallback.img 
+  } 
+  submenuentry &#34;Boot to terminal&#34; { 
+    add_options &#34;systemd.unit=multi-user.target&#34; 
+  }
+}
+
+menuentry &#34;Windows&#34; { 
+   icon /EFI/refind/themes/rEFInd-minimal/icons/os_win.png 
+   loader \EFI\Microsoft\Boot\bootmgfw.efi 
+}
+</code></pre><h3 id="挂载目录">挂载目录</h3>
+<p>得益于新内核里的 ntfs3 驱动，我可以挂载一些 Windows 目录来让 Linux 上的 Wine 微信和 Steam 共享。这样前者可以同步在两个系统下的聊天记录，后者可以用 Proton 玩游戏。本来是用 fstab 挂载的，但是在过了一天之后 fstab 就没办法挂载上了，直接让系统启动不了，我感觉这非常的灵车……于是还是自己写了个 <em>内裤d</em> 服务来挂载</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /run/media/archeb/Portable 
+</span></span><span style="display:flex;"><span>mkdir -p /run/media/archeb/Software 
+</span></span><span style="display:flex;"><span>mkdir -p /run/media/archeb/Windows 
+</span></span><span style="display:flex;"><span>mount -t ntfs3 /dev/disk/by-label/Portable /run/media/archeb/Portable -o umask<span style="color:#f92672">=</span><span style="color:#ae81ff">000</span>
+</span></span><span style="display:flex;"><span>mount -t ntfs3 /dev/disk/by-label/Software /run/media/archeb/Software -o umask<span style="color:#f92672">=</span><span style="color:#ae81ff">000</span>
+</span></span><span style="display:flex;"><span>mount -t ntfs3 /dev/disk/by-label/Windows /run/media/archeb/Windows -o umask<span style="color:#f92672">=</span><span style="color:#ae81ff">133</span>
+</span></span><span style="display:flex;"><span>echo Partition Mounted
+</span></span></code></pre></div><h2 id="分数缩放">分数缩放</h2>
+<p>令人惊讶的是，这没有什么需要配置的。我就单纯的安装了 nVIDIA 驱动然后在 KDE 设置里面选择 125% 缩放就好了，没有任何应用程序出现任何 BUG……</p>
+<h2 id="美化">美化</h2>
+<p>KDE的美化潜力实在是太大了，比GNOME和Windows都要强太多，我花了挺多时间来调教的，最终成果如封面图所示。使用主题是 <a href="https://store.kde.org/p/1799652/">Amethyst</a>，下面是他的效果图，我自己稍微进行了一些修改。</p>
+<p><img src="/assets/screenshot-20220519-221935-20220628142153728.png.webp" alt=""></p>
+<h3 id="为无边框自绘窗口添加阴影">为无边框/自绘窗口添加阴影</h3>
+<p>有许多 Electron 和 QT App 会选择自绘窗口边框，但是这样会导致它在 KWin 窗口管理器下失去阴影。我们可以利用「配置特殊窗口设置」和「特定窗口优先规则」来给他们加上阴影，效果如下</p>
+<p><img src="/assets/eajIYX4-20220628142459891-6400744-6400746.png.webp" alt="img"></p>
+<p>具体方法是在「外观」-「窗口装饰元素」里面找到正在使用的主题并且点击设置，然后在「特定窗口优先规则」中指定该窗口，设置「隐藏窗口标题栏」并确定。</p>
+<p><img src="/assets/0776430bfdc23418ff715.png.webp" alt="image-20220627020314316"></p>
+<p>再在需要阴影的窗口上按 Alt + F3 呼出 KWin 菜单，选择「更多操作」-「配置特殊窗口设置」，设置窗口为强制有标题栏和边框。</p>
+<p><img src="/assets/92f5c95b2e4c07ad901f9.png.webp" alt="image-20220627020536330"></p>
+<p>然后你的窗口就有了阴影，好看多了！</p>
+<h2 id="软件">软件</h2>
+<h3 id="输入法">输入法</h3>
+<p>fctix5 真好用，主题是 <a href="https://github.com/Reverier-Xu/FluentDark-fcitx5">FluentDark</a></p>
+<h3 id="wine-微信">Wine 微信</h3>
+<p>感谢 AUR 的维护者大佬们，他们制作的微信功能和 Windows 的几乎一致：聊天、图片预览、文件发送保存、剪贴板等功能都能完美正常使用。虽然小程序和视频播放是意料之中的不能使用，但是 Windows 微信的小程序其实也是几乎残废，很多应用没适配，性能也很差，所以就不奢求 Linux 上也能用了。</p>
+<p>在选择用户数据目录上出了一点小问题：整个选择都是失效的，会最终 fallback 到 Wine 环境的桌面。于是我就在 Wine 桌面上创建了一个符号链接到挂载的 NTFS 驱动器的目录里。目前来看数据一切正常，能够在 Windows 和 Linux 的微信之间正常同步</p>
+<h3 id="microsoft-to-do">Microsoft To-Do</h3>
+<p>日常我比较依赖这个软件来规划记录我的行程，所以它也是必需品。</p>
+<p>我下载了 WebSlice 这个 Plasma 小组件，并且设置 URL 为 <a href="https://to-do.live.com/tasks/inbox">https://to-do.live.com/tasks/inbox</a>，然后通过自定义 JS 功能来重写一下它的外观以适应我的主题。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-CSS" data-lang="CSS"><span style="display:flex;"><span><span style="color:#f92672">var</span> <span style="color:#f92672">styles</span> <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">`</span>:<span style="color:#a6e22e">root</span> {
+</span></span><span style="display:flex;"><span>    --bg-primary: <span style="color:#66d9ef">transparent</span>;
+</span></span><span style="display:flex;"><span>    --bg-secondary: <span style="color:#66d9ef">transparent</span>;
+</span></span><span style="display:flex;"><span>    --bg-tertiary: <span style="color:#ae81ff">#202644</span>;
+</span></span><span style="display:flex;"><span>    --bg-hover: rgba(<span style="color:#ae81ff">29</span>,<span style="color:#ae81ff">53</span>,<span style="color:#ae81ff">105</span>,<span style="color:#ae81ff">0.3</span>);
+</span></span><span style="display:flex;"><span>    --bg-hover-secondary: rgba(<span style="color:#ae81ff">29</span>,<span style="color:#ae81ff">53</span>,<span style="color:#ae81ff">105</span>,<span style="color:#ae81ff">0.3</span>);
+</span></span><span style="display:flex;"><span>    --bg-hover-tertiary: rgba(<span style="color:#ae81ff">29</span>,<span style="color:#ae81ff">53</span>,<span style="color:#ae81ff">105</span>,<span style="color:#ae81ff">0.3</span>);
+</span></span><span style="display:flex;"><span>    --bg-active: <span style="color:#66d9ef">transparent</span>;
+</span></span><span style="display:flex;"><span>    --bg-active-secondary: <span style="color:#66d9ef">transparent</span>;
+</span></span><span style="display:flex;"><span>    --bg-active-tertiary: <span style="color:#66d9ef">transparent</span>;
+</span></span><span style="display:flex;"><span>    --bg-separator: <span style="color:#66d9ef">transparent</span>;
+</span></span><span style="display:flex;"><span>    --bg-border: <span style="color:#66d9ef">transparent</span>;
+</span></span><span style="display:flex;"><span>    --bg-scrollbar: <span style="color:#ae81ff">#606278</span>;
+</span></span><span style="display:flex;"><span>    --bg-brand: <span style="color:#ae81ff">#2564cf</span>;
+</span></span><span style="display:flex;"><span>    --bg-brand-hover: <span style="color:#ae81ff">#215aba</span>;
+</span></span><span style="display:flex;"><span>    --bg-brand-hover-secondary: <span style="color:#ae81ff">#8c93a5</span>;
+</span></span><span style="display:flex;"><span>    --bg-brand-secondary: <span style="color:#ae81ff">#ecf6fd</span>;
+</span></span><span style="display:flex;"><span>    --bg-brand-disable: <span style="color:#ae81ff">#EDEBE9</span>;
+</span></span><span style="display:flex;"><span>    --font-color-primary: <span style="color:#ae81ff">#fefefe</span>;
+</span></span><span style="display:flex;"><span>    --font-color-secondary: <span style="color:#ae81ff">#999999</span>;
+</span></span><span style="display:flex;"><span>    --font-color-tertiary: <span style="color:#ae81ff">#bbbbbb</span>;
+</span></span><span style="display:flex;"><span>    --font-color-warning: <span style="color:#ae81ff">#a80000</span>;
+</span></span><span style="display:flex;"><span>    --font-color-brand: <span style="color:#ae81ff">#3DB0E3</span>;
+</span></span><span style="display:flex;"><span>    --font-color-disable: <span style="color:#ae81ff">#A19F9D</span>;
+</span></span><span style="display:flex;"><span>    --bg-ms-planner: <span style="color:#ae81ff">#31752f</span>;
+</span></span><span style="display:flex;"><span>    --bg-ms-one-note: <span style="color:#ae81ff">#7719aa</span>;
+</span></span><span style="display:flex;"><span>    --bg-ms-excel: <span style="color:#ae81ff">#107c41</span>;
+</span></span><span style="display:flex;"><span>    --bg-ms-word: <span style="color:#ae81ff">#185abd</span>;
+</span></span><span style="display:flex;"><span>    --bg-ms-power-point: <span style="color:#ae81ff">#c43e1c</span>;
+</span></span><span style="display:flex;"><span>    --bg-ms-teams: <span style="color:#ae81ff">#6355a8</span>;
+</span></span><span style="display:flex;"><span>    --list-theme-blue-primary-0: <span style="color:#ae81ff">#86aeff</span>;
+</span></span><span style="display:flex;"><span>    --list-theme-blue-primary-10: <span style="color:#ae81ff">#86aeff</span>;
+</span></span><span style="display:flex;"><span>    --list-theme-blue-primary-20: <span style="color:#ae81ff">#86aeff</span>;
+</span></span><span style="display:flex;"><span>    --list-theme-blue-contrast-highlight-quick-fix: <span style="color:#ae81ff">#86aeff</span>;
+</span></span><span style="display:flex;"><span>    --list-theme-blue-top: <span style="color:#ae81ff">#86aeff</span>;
+</span></span><span style="display:flex;"><span>    --list-theme-blue-bottom: <span style="color:#ae81ff">#86aeff</span>;
+</span></span><span style="display:flex;"><span>    --list-theme-blue-top-minimized: <span style="color:#ae81ff">#86aeff</span>;
+</span></span><span style="display:flex;"><span>    --list-theme-blue-bottom-minimized: <span style="color:#ae81ff">#86aeff</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">addToTop</span> .<span style="color:#a6e22e">baseAdd</span>.<span style="color:#a6e22e">addTask</span> .<span style="color:#a6e22e">baseAdd-input</span>.<span style="color:#a6e22e">taskCreation</span> .<span style="color:#a6e22e">textPresent</span><span style="color:#f92672">,</span> .<span style="color:#a6e22e">addToTop</span> .<span style="color:#a6e22e">baseAdd</span>.<span style="color:#a6e22e">addTask</span> .<span style="color:#a6e22e">baseAdd-input</span>.<span style="color:#a6e22e">taskCreation</span>.<span style="color:#a6e22e">expanded</span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">box-shadow</span>:<span style="color:#66d9ef">none</span><span style="color:#75715e">!important</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>#O365ShellHeader{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">display</span>:<span style="color:#66d9ef">none</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#f92672">span</span><span style="color:#f92672">,</span><span style="color:#f92672">a</span><span style="color:#f92672">,</span><span style="color:#f92672">input</span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">font-family</span>:sans<span style="color:#75715e">!important</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">rightColumn</span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">background</span>:<span style="color:#ae81ff">#202644</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">`</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">var</span> <span style="color:#f92672">styleSheet</span> <span style="color:#f92672">=</span> <span style="color:#f92672">document</span>.<span style="color:#a6e22e">createElement</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;style&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">styleSheet</span>.<span style="color:#a6e22e">innerText</span> <span style="color:#f92672">=</span> <span style="color:#f92672">styles</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">document</span>.<span style="color:#a6e22e">head</span>.<span style="color:#a6e22e">appendChild</span><span style="color:#f92672">(</span><span style="color:#f92672">styleSheet</span><span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>最后把他拖到任务栏的右下角，有需要的时候就可以呼出来看日程啦</p>
+<p><img src="/assets/25c934e5c920f5fb74cfb.png.webp" alt="image-20220627015820280"></p>
+<h3 id="游戏">游戏</h3>
+<p>CSGO 之前在 Ubuntu 上爆炸的原因这次被我找出来了，似乎是新UI的一些视频没办法被正确播放，导致进入游戏之后黑屏一下然后就崩溃了。只需要进入游戏目录然后把 csgo/panorama/videos 目录改个名让他读不到视频，然后再在启动参数里加上 -novid 便可正常启动游戏。</p>
+<p>令我惊喜的是在 Windows 下面常年运行在170帧左右的 CSGO（中特效），在 Linux 上竟然可以随便跑到230帧，而且还是高特效。画面丝滑到难以置信，这可是足足 35% 的性能提升……以后 CSGO 就都在 Linux 下玩吧。</p>
+<p>其他游戏的话，EAC反作弊官方已经支持 Linux 了，Proton的兼容性也越来越好，听说 Apex 也能玩了。不过其他游戏我玩的不多，就不是很在意这个。</p>
+<h3 id="android-模拟器">Android 模拟器</h3>
+<p>因为有在电脑上抄明日方舟作业的需求，而且我没有其他安卓机器无法 scrcpy，所以 Android 模拟器也是很有必要的。Linux 上的安卓模拟器方案主要就是 Anbox系（比如容器化了的版本reDroid）和虚拟机。</p>
+<p>经过多次尝试，我都没办法让 virtualbox、qemu-android-x86 和 reDroid 调用 RTX 2080 的显卡加速，但是 VMWare 却可以。总之在给 Android-X86 打了 vmware 的驱动之后，我在上面流畅地运行了明日方舟。</p>
+<h2 id="小结">小结</h2>
+<p>感谢 AUR 和 V 社，让 Linux 生态如此丰富，我现在认为 Arch 已经完全可以成为我日常使用的系统了。总之希望系统不要滚炸然后一直用下去吧！</p>
+
+                    </div>
+                    
+                </div>
+                    
+                    
+                        <div class="bean article-comment article-comment-hidden">
+                            <div class="comment-container">
+                            <div id="gitalk-container"></div>
+<script>
+var href = new URL(window.location.href).pathname.split("/");
+var slug = href[href.length - 1] != "" ? href[href.length - 1] : href[href.length - 2]
+new Gitalk({
+  clientID: "fb4a07f44c3d7b079399",
+  clientSecret: "08adb9b8b4da92a812adb7257412c9efff4f92f4",
+  repo: "Blog-Comments",
+  owner: "Archeb",
+  admin: ["Archeb"],
+  proxy: "https://corsproxy.gfw.moe/corsproxy/?apiurl=https://github.com/login/oauth/access_token",
+  id: slug, 
+  distractionFreeMode: false, 
+}).render('gitalk-container')
+</script>
+
+                            </div>
+                        </div>
+                    
+                </div>
+                <div class="bean-tools">
+                    <div class="tool-btn" id="btn-top" title="回到顶部"
+                        onclick="document.querySelector('.bean-read').scrollTo({top: 0, behavior: 'smooth'})">
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                            <path
+                                d="M519.4 242.8l263.8 333.4c14.6 18.4 1.4 45.8-22.2 45.8H263c-23.6 0-36.8-27.4-22.2-45.8l263.8-333.4c10.4-13.2 30.4-13.2 40.8 0z"
+                                fill="currentColor" />
+                        </svg>
+                    </div>
+                    
+                    <div class="tool-btn" id="btn-comment" title="查看评论"
+                        onclick="toggleComments()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                            <path
+                                d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H6L4 18V4H20V16Z"
+                                fill="currentColor" />
+                        </svg>
+                    </div>
+                    
+                    <div class="tool-btn" id="btn-share" title="分享"
+                        onclick="navigator.share({title: document.title, url: window.location.href})">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                            <path
+                                d="M18 16.08C17.24 16.08 16.56 16.38 16.04 16.85L8.91 12.7C8.96 12.47 9 12.24 9 12C9 11.76 8.96 11.53 8.91 11.3L15.96 7.19C16.5 7.69 17.21 8 18 8C19.66 8 21 6.66 21 5C21 3.34 19.66 2 18 2C16.34 2 15 3.34 15 5C15 5.24 15.04 5.47 15.09 5.7L8.04 9.81C7.5 9.31 6.79 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.79 15 7.5 14.69 8.04 14.19L15.16 18.34C15.11 18.55 15.08 18.77 15.08 19C15.08 20.61 16.39 21.92 18 21.92C19.61 21.92 20.92 20.61 20.92 19C20.92 17.39 19.61 16.08 18 16.08Z"
+                                fill="currentColor" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            
+    <script src="/js/candy2.js"></script>
+</body>
+
+</html>

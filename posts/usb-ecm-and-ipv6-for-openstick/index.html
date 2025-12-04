@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="https://mozz.ie/">
+    <title>高通410随身WiFi的进阶USB网络共享和IPv6配置 - 蚊帐</title>
+    <meta name="description"
+        content="主要包括 USB CDC-ECM 的配置以让它被 RouterOS 识别，还有基于 ND Proxy 的 IPv6 共享">
+    
+    
+    <meta name="author" content="mozzie">
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/scss/style.min.8cfc2cbfa3045b86d83d069072970f07d42c0a725ca96062014a772e2d673366.css">
+    <link rel="icon" type="image/x-icon" href="/img/icon.png">
+    <meta name="view-transition" content="same-origin">
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+    
+    <meta property="og:title" content="高通410随身WiFi的进阶USB网络共享和IPv6配置" />
+<meta property="og:description" content="主要包括 USB CDC-ECM 的配置以让它被 RouterOS 识别，还有基于 ND Proxy 的 IPv6 共享" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mozz.ie/posts/usb-ecm-and-ipv6-for-openstick/" /><meta property="og:image" content="https://mozz.ie/assets/usb-ecm-and-ipv6-for-openstick/photo_2022-10-04_18-29-37.jpg" />
+<meta property="og:site_name" content="蚊帐" /><meta property="article:published_time" content="2022-10-05T23:29:11&#43;08:00" /><meta property="article:modified_time" content="2022-10-05T23:29:11&#43;08:00" />
+<meta property="article:section" content="日常" />
+<meta property="article:section" content="技术" />
+    
+</head>
+
+<body>
+    
+
+<div class="container" id="container">
+    <div class="bean bean-main">
+    <div class="avatar">
+        <img src="/img/icon.png" alt="蚊帐">
+    </div>
+    <div class="blog-name">蚊帐</div>
+    <div class="links">
+        <a class="link-item " href="/">
+            <div class="link-container">
+                <span class="link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none"><path d="M7.5 2.75a.75.75 0 0 0-1.5 0v3a1.75 1.75 0 0 0 1.543 1.738L6.527 9.993a3.868 3.868 0 0 0 .119 3.143l3.99 7.95c.149.298.363.535.614.693V12.3a1.5 1.5 0 1 1 1.5 0v9.48c.251-.158.465-.395.615-.692l3.99-7.951c.481-.96.526-2.137.118-3.143l-1.016-2.505A1.75 1.75 0 0 0 18 5.75v-3a.75.75 0 0 0-1.5 0v3a.25.25 0 0 1-.25.25h-8.5a.25.25 0 0 1-.25-.25v-3z" fill="currentColor"></path></g></svg></span>
+                <span class="link-text">&nbsp;文章</span>
+            </div>
+        </a>
+        
+        <a class="link-item " href="/categories/%e6%8a%80%e6%9c%af/">
+            <div class="link-container">
+                <span class="link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16"><g fill="none"><path d="M11 1a4 4 0 0 0-3.896 4.91l-5.051 5.235a1.986 1.986 0 0 0 2.842 2.774l5.007-5.072a4.002 4.002 0 0 0 5.062-4.382a.5.5 0 0 0-.85-.287L12 6.293L9.707 4l2.115-2.115a.5.5 0 0 0-.287-.85A4.032 4.032 0 0 0 10.999 1z" fill="currentColor"></path></g></svg></span>
+                <span class="link-text">&nbsp;技术</span>
+            </div>
+        </a>
+        
+        <a class="link-item " href="/categories/%E6%97%A5%E5%B8%B8/">
+            <div class="link-container">
+                <span class="link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M21.05 17.56l-17.97.94L3 17l17.98-.94l.07 1.5zM21 19.48H3v1.5h18v-1.5zM22 5v7c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h16c1.1 0 2 .9 2 2zm-2 1c-1.68 0-3.04.98-3.21 2.23c-.64-.73-2.73-2.73-6.54-2.73c-4.67 0-6.75 3-6.75 3s2.08 3 6.75 3c3.81 0 5.9-2 6.54-2.73C16.96 10.02 18.32 11 20 11V6z" fill="currentColor"></path></svg></span>
+                <span class="link-text">&nbsp;日常</span>
+            </div>
+        </a>
+        
+        <a class="link-item " href="/links/">
+            <div class="link-container">
+                <span class="link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M29.25 6.76a6 6 0 0 0-8.5 0l1.42 1.42a4 4 0 1 1 5.67 5.67l-8 8a4 4 0 1 1-5.67-5.66l1.41-1.42l-1.41-1.42l-1.42 1.42a6 6 0 0 0 0 8.5A6 6 0 0 0 17 25a6 6 0 0 0 4.27-1.76l8-8a6 6 0 0 0-.02-8.48z" fill="currentColor"></path><path d="M4.19 24.82a4 4 0 0 1 0-5.67l8-8a4 4 0 0 1 5.67 0A3.94 3.94 0 0 1 19 14a4 4 0 0 1-1.17 2.85L15.71 19l1.42 1.42l2.12-2.12a6 6 0 0 0-8.51-8.51l-8 8a6 6 0 0 0 0 8.51A6 6 0 0 0 7 28a6.07 6.07 0 0 0 4.28-1.76l-1.42-1.42a4 4 0 0 1-5.67 0z" fill="currentColor"></path></svg></span>
+                <span class="link-text">&nbsp;链接</span>
+            </div>
+        </a>
+        
+        <a class="link-item " href="/about/">
+            <div class="link-container">
+                <span class="link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M25 10l1.593 3l3.407.414l-2.5 2.253L28 19l-3-1.875L22 19l.5-3.333l-2.5-2.253L23.5 13l1.5-3z" fill="currentColor"></path><path d="M22 30h-2v-5a5.006 5.006 0 0 0-5-5H9a5.006 5.006 0 0 0-5 5v5H2v-5a7.008 7.008 0 0 1 7-7h6a7.008 7.008 0 0 1 7 7z" fill="currentColor"></path><path d="M12 4a5 5 0 1 1-5 5a5 5 0 0 1 5-5m0-2a7 7 0 1 0 7 7a7 7 0 0 0-7-7z" fill="currentColor"></path></svg></span>
+                <span class="link-text">&nbsp;关于</span>
+            </div>
+        </a>
+        
+    </div>
+    <div class="meta-info">
+        <span class="show">Mozzie © 2025<br />Made With ♥</span>
+        <span class="hide">Theme Candy 2 By <a href="https://github.com/Archeb/candy2-hugo">Candy2-Hugo</a></span>
+    </div>
+</div>
+    <div id="contained-containers" class="contained-containers">
+        <div class="contained-beans">
+            
+                        <a href="https://mozz.ie/posts/wdm-custom-combo-boardband/" class="bean bean-article" style="background-image: url('/assets/wdm-custom-combo-boardband/xgspon3A_764X452.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2025年4月19日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>波分单线复用笑传之Custom Combo Broadband</span>
+        <div class="article-summary">
+            只要一个￥38的波分复用器，巧妙解决小区单线入户但想多运营商接入的老生常谈问题
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/homeassistant-integration-writeup/" class="bean bean-article" style="background-image: url('/assets/homeassistant-integration-writeup/photo_2025-03-22_01-05-25.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2025年3月22日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>新柏石KNX协议智能家居网关接入 HomeAssistant</span>
+        <div class="article-summary">
+            只需要一根网线和一些小技巧，将开发商精装送的全屋智能设备接入HA，同时完整保留对原有系统的兼容，不具侵入性。
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/dual-cgnat-routeros-wireguard-tunnel/" class="bean bean-article" style="background-image: url('/img/cover1.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2025年1月24日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>双方无公网状态下 RouterOS 基于 WireGuard 的组网方案</span>
+        <div class="article-summary">
+            双方无公网但其中一方是 Full Cone NAT，这种情况下如何用 RouterOS 组网？要解决这个问题，你需要一台 Linux（或者容器）来帮路由器打洞。
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/gdcu-iptv-playlist/" class="bean bean-article" style="background-image: url('/img/cover1.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2024年10月27日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>广东联通 IPTV 鉴权&amp;抓源脚本（以及碎碎念）</span>
+        <div class="article-summary">
+            效果和用途同上一篇一样，只不过换成了联通的，两家的架构大差不差。至于我为什么从电信换成了联通，请看正文
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/gdct-iptv-auth-and-fetch-playlist/" class="bean bean-article" style="background-image: url('/img/cover1.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2023年6月25日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>广东电信 IPTV 自助鉴权 &#43; 获取播放列表</span>
+        <div class="article-summary">
+            懒得每次失效都要重新抓包了，研究发现可以重放鉴权包，现在可以在电脑完成整个过程了
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/why-not-pon-fttr/" class="bean bean-article" style="background-image: url('/assets/why-not-pon-fttr/large-20220408_banner_cms_webinar_ftth-rollout_760x428.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2023年5月7日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>为什么我们要拒绝 PON 方案的 FTTR</span>
+        <div class="article-summary">
+            “FTTR 是一套很神奇的几乎没有任何优点的方案。很少见到这样全是缺点几乎没优点的方案”
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/turn-windows-11-into-server-2022/" class="bean bean-article" style="background-image: url('/assets/turn-windows-11-into-server-2022/Snipaste_2023-01-02_11-57-49.png');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2023年1月2日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>把 Windows 11/10 不完全转换为 Windows Server 2022</span>
+        <div class="article-summary">
+            当你想使用一些 Windows Server 专属功能的时候，你也许想要这么做。比如我打算用的 DDA （Discrete Device Assignment）功能。本文不涉及关于如何激活的内容，请自备许可证。
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/usb-ecm-and-ipv6-for-openstick/" class="bean bean-article" style="background-image: url('/assets/usb-ecm-and-ipv6-for-openstick/photo_2022-10-04_18-29-37.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2022年10月5日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">日常</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>高通410随身WiFi的进阶USB网络共享和IPv6配置</span>
+        <div class="article-summary">
+            主要包括 USB CDC-ECM 的配置以让它被 RouterOS 识别，还有基于 ND Proxy 的 IPv6 共享
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/thinkbook-14-g4&#43;ara-amd-ryzen-hands-on/" class="bean bean-article" style="background-image: url('/assets/ThinkBook-14-G4&#43;ARA-AMD-Ryzen-Hands-On/image-20220802032903453.png');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2022年8月1日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">日常</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>ThinkBook 14&#43; 锐龙版上手体验</span>
+        <div class="article-summary">
+            2022年，史称6800H年。
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/experience-summary-for-arch-and-kde/" class="bean bean-article" style="background-image: url('/assets/8854314f89b9e34d7201c.png');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2022年6月27日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">日常</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>ArchLinux &#43; KDE 一周使用小结</span>
+        <div class="article-summary">
+            蚊子の第二次 Linux 挑战，堂堂开幕！
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/fix-fractional-scaling-edge-chrome-position/" class="bean bean-article" style="background-image: url('/assets/images/2021/11/----_gjs_20211127130445.png.webp');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2021年11月27日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">日常</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">水</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>修复 Edge/Chrome 在 GNOME 分数缩放下的窗口位置问题</span>
+        <div class="article-summary">
+            从上周开始，老莱弄了个“Daily Driver CHALLENGE”，然后我也跟了一波风
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/extracting-iptv-live-streams/" class="bean bean-article" style="background-image: url('/img/cover1.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2021年4月12日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">日常</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">网络</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>轻松抓取并解析广东电信 IPTV 全部直播源</span>
+        <div class="article-summary">
+            老爸说想在卧室看电视，网上的电视直播软件大多都不怎么稳定，还有广告。而 GitHub 上的 IPTV 项目里的源清晰度也都不咋地。自己动手，丰衣足食，自己从机顶盒里抓吧！
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/ultimate-virtual-monitor-solution-indirect-display/" class="bean bean-article" style="background-image: url('/assets/images/2021/04/----1.png.webp');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2021年4月11日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>虚拟显示器终极解决方案 IndirectDisplay</span>
+        <div class="article-summary">
+            自从上了大学，因为学校在珠海家在广州距离不算远，所以我经常两头跑。别人两头跑带个笔记本也就好了；我虽
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/pve-based-home-network/" class="bean bean-article" style="background-image: url('/assets/images/size/w1000/2021/03/image.png.webp');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2021年3月6日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">网络</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>基于PVE的新网络架构 - 踩坑回顾</span>
+        <div class="article-summary">
+            用 LXC 容器来跑 OpenWRT 虽然很香，但也有一些坑。
+        </div>
+    </div>
+</a>
+                        
+                        <div class="bean-space"></div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="modal"
+                style="visibility: visible; background-color: rgba(0, 0, 0, 0.5); backdrop-filter: blur(20px);">
+                <div class="article-toc">
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#修改-gadget-让其支持-usb-cdc-ecm">修改 Gadget 让其支持 USB CDC-ECM</a>
+      <ul>
+        <li><a href="#什么是-usb-gadget">什么是 USB Gadget</a></li>
+        <li><a href="#什么是-usb-cdc-ecm">什么是 USB CDC-ECM</a></li>
+        <li><a href="#handsomemodopenstick-项目的发行版-如何管理和使用-gadget">HandsomeMod（OpenStick 项目的发行版） 如何管理和使用 Gadget</a></li>
+        <li><a href="#修改-vendor-id-和-product-id">修改 Vendor ID 和 Product ID</a></li>
+        <li><a href="#配置网络">配置网络</a></li>
+      </ul>
+    </li>
+    <li><a href="#ipv6-配置">IPv6 配置</a>
+      <ul>
+        <li><a href="#蜂窝网络的-ipv6-共享是什么样子的">蜂窝网络的 IPv6 共享是什么样子的</a></li>
+        <li><a href="#所有配置">所有配置</a></li>
+      </ul>
+    </li>
+    <li><a href="#换不同运营商卡之后-modem-not-found">换不同运营商卡之后 modem not found</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+                </div>
+                <div class="modal-visible-container">
+                <div class="bean bean-read" style="transform: translate(0, 0);">
+                    <div class="modal-close">×</div>
+                    <div class="article-cover"
+                        style="background-image: url('/assets/usb-ecm-and-ipv6-for-openstick/photo_2022-10-04_18-29-37.jpg');">
+                        <div></div>
+                        <div class="article-title">
+                            高通410随身WiFi的进阶USB网络共享和IPv6配置
+                            <div class="article-category">
+                                
+                                <div class="category-item">
+                                    <div class="item-text">日常</div>
+                                </div>
+                                
+                                <div class="category-item">
+                                    <div class="item-text">技术</div>
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article-banner">
+                        <div id="banner-progressbar"></div>
+                        <div class="banner-content">
+                            
+                            <div class="banner-author">
+                                
+                                <div class="author-avatar">
+                                    <img src="/img/icon.png" alt="mozzie">
+                                </div>
+                                
+                                <span class="author-name">mozzie</span>
+                                <span class="publish-time">2022年10月5日</span>
+                                <span class="small-title">高通410随身WiFi的进阶USB网络共享和IPv6配置</span>
+                            </div>
+                            <div class="banner-tools">
+                                <span class="reading-time">阅读共需 3 分钟</span>
+                            </div>
+                        </div>
+                        <div class="mobile-close-btn"><svg xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32">
+                                <path
+                                    d="M24 9.4L22.6 8L16 14.6L9.4 8L8 9.4l6.6 6.6L8 22.6L9.4 24l6.6-6.6l6.6 6.6l1.4-1.4l-6.6-6.6L24 9.4z"
+                                    fill="currentColor"></path>
+                            </svg></div>
+                    </div>
+                    <div class="article-content">
+                        <p>大概是今年年初开始，酷安社区那边掀起了折腾淘宝上那些高通410平台的随身WiFi的热潮，它们价格低廉、解锁简易、拓展性强的特点使得各路大神都投入了极大的热情来开发其周边玩法，<a href="https://www.kancloud.cn/handsomehacker/openstick/2636505">OpenStick</a>就是一个能让这个随身WiFi跑debian的项目。这个棒子的相关信息网上已经有非常非常多了，我在这里就不陈词滥调介绍，而是速战速决分享一些新的玩法和优化。</p>
+<h2 id="修改-gadget-让其支持-usb-cdc-ecm">修改 Gadget 让其支持 USB CDC-ECM</h2>
+<p>首先是我想把这个棒子直接插在 CCR1036 上让他作为带外管理使用，但是显然它没有直接就能用，所以我稍微研究了一下，主要涉及添加 ECM 功能和修改 Vendor ID/Device ID两部分。</p>
+<h3 id="什么是-usb-gadget">什么是 USB Gadget</h3>
+<blockquote>
+<p><a href="https://blog.csdn.net/zjujoe/article/details/2645510">https://blog.csdn.net/zjujoe/article/details/2645510</a></p>
+<p><em>Linux-USB Gadget</em> 驱动框架（以下简称 <em>Gadget</em>）实现了<em>USB</em> 协议定义的设备端的软件功能。基于 <em>API, Gadget</em> 驱动实现了一套硬件无关的功能，这基本上可以对应到 <em>USB</em> 协议里 的各种 <em>USB Class</em>。</p>
+<p>普通的 <em>Gadget</em> 驱动只实现一个功能（比如， <em>u</em> 盘，<em>usb</em> 网卡）。复合设备可以支持多个功能。像智能手机*, PDA*这样的设备，硬件支持较丰富的端点、<em>DMA Buffer,</em> 给软件提了支持复合功能的基础。</p>
+</blockquote>
+<p>简单的说就是在一个USB接口上实现多个功能的框架。</p>
+<h3 id="什么是-usb-cdc-ecm">什么是 USB CDC-ECM</h3>
+<p>CDC-ECM 是一套和微软 RNDIS 类似的，实现 Ethernet over USB 的协议，但它是由 USB-IF 制定的业界标准，除了 Windows 之外其他系统（Linux、macOS）基本都支持。</p>
+<h3 id="handsomemodopenstick-项目的发行版-如何管理和使用-gadget">HandsomeMod（OpenStick 项目的发行版） 如何管理和使用 Gadget</h3>
+<blockquote>
+<p><a href="https://www.kancloud.cn/handsomehacker/openstick/2637561">https://www.kancloud.cn/handsomehacker/openstick/2637561</a></p>
+<p>OpenStick 提供的所有系统都使用基于libusbgx的Gadget Controller (以下简称gc)来管理usb在device模式下的行为。</p>
+</blockquote>
+<p>该发行版使用 <a href="https://github.com/HandsomeMod/gc">gc</a> 来管理 Gadget，而且作者在编写这个程序的时候就支持了许多种设备类型，包括CDC-ECM。我们只需要修改系统开机启动会调用的脚本 <code>/usr/sbin/mobian-usb-gadget</code> 就可以，修改后的脚本如下。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/sh
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>CONFIGFS<span style="color:#f92672">=</span>/sys/kernel/config/usb_gadget/g1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>setup<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Remove All Gadgets If Gadget Exist</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">[</span> -d $CONFIGFS <span style="color:#f92672">]</span> <span style="color:#f92672">&amp;&amp;</span> gc -c
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Setiing Up Rndis</span>
+</span></span><span style="display:flex;"><span>    gc -a rndis
+</span></span><span style="display:flex;"><span>    sleep <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e"># Add CDC-ECM Device</span>
+</span></span><span style="display:flex;"><span>    gc -a ecm
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Setting Up Adbd</span>
+</span></span><span style="display:flex;"><span>    gc -a ffs
+</span></span><span style="display:flex;"><span>    mkdir -p /dev/usb-ffs/adb
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># in offical version of gc name will be ffs.x</span>
+</span></span><span style="display:flex;"><span>    mount -t functionfs ffs.2 /dev/usb-ffs/adb
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Fire Up Adbd</span>
+</span></span><span style="display:flex;"><span>    adbd -D &amp;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># (hack) wait adbd setup</span>
+</span></span><span style="display:flex;"><span>    sleep <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Enable Gadget</span>
+</span></span><span style="display:flex;"><span>    gc -e
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>reset<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;Removing the USB gadget...&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Remove USB gadget</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -d $CONFIGFS <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>        echo <span style="color:#e6db74">&#34;Removing gadget configuration...&#34;</span>
+</span></span><span style="display:flex;"><span>        gc -c
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span> in
+</span></span><span style="display:flex;"><span>    reset<span style="color:#f92672">)</span> reset ;;
+</span></span><span style="display:flex;"><span>    setup<span style="color:#f92672">)</span> setup ;;
+</span></span><span style="display:flex;"><span>    *<span style="color:#f92672">)</span> ;;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">esac</span>
+</span></span></code></pre></div><p><del>不知道为什么，添加了 ECM 设备之后再加ADB设备会让整个 USB 功能失效，考虑到我暂时用不上 adb 所以干脆就注释掉了。</del> 2022年10月16日更新：我傻逼了，没看注释说 在正式版gc里ffs的设备名字是ffs.x而不是adb，导致mount不上。现在请配合以上更新后的脚本使用。</p>
+<h3 id="修改-vendor-id-和-product-id">修改 Vendor ID 和 Product ID</h3>
+<p>需要重新编译 <a href="https://github.com/HandsomeMod/gc">https://github.com/HandsomeMod/gc</a> 并且替换 <code>/usr/bin/gc</code>，当然你也可以直接以二进制方式修改可执行文件里的数值。修改为如下即可让RouterOS识别。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#ifndef ID_VENDOR
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define ID_VENDOR &#34;0x05ac&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#endif
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#ifndef ID_PRODUCT
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define ID_PRODUCT &#34;0x1402&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#endif
+</span></span></span></code></pre></div><p>如果你实在太懒，可以直接下载我编译好的版本 <a href="https://pan.globalslb.net/s/RbYcP">https://pan.globalslb.net/s/RbYcP</a> （只修改了ID，没有改名字）</p>
+<p>插上路由器之后 RouterOS 里大概是这个效果（如果自己编译的话，可以自定义设备名字）</p>
+<p><img src="/assets/usb-ecm-and-ipv6-for-openstick/image-20221005235821173.png" alt="image-20221005235821173"></p>
+<p><img src="/assets/usb-ecm-and-ipv6-for-openstick/image-20221005235935181.png" alt="image-20221005235935181"></p>
+<h3 id="配置网络">配置网络</h3>
+<p>添加完 ECM 之后系统里会出来两个 usb 网口 usb0 和 usb1，需要按照 <a href="https://www.kancloud.cn/handsomehacker/openstick/2684880">https://www.kancloud.cn/handsomehacker/openstick/2684880</a> 的教程配置好网桥，然后把 usb1 也添加进这个网桥里，ROS 才能 DHCP 获得 IP</p>
+<h2 id="ipv6-配置">IPv6 配置</h2>
+<h3 id="蜂窝网络的-ipv6-共享是什么样子的">蜂窝网络的 IPv6 共享是什么样子的</h3>
+<p>一言以蔽之就是 ND Proxy，因为核心网没有实现 DHCPv6 Prefix Delegation。所以我们主要依靠 NDPDP 来把网络打通。这和教育网里的 SLAAC IPv6 分配很类似，可以完全参考其经验操作。在这里我主要参考了 <a href="https://www.cnblogs.com/flintlovesam/p/5329241.html">https://www.cnblogs.com/flintlovesam/p/5329241.html</a> 来配置NDPPD + RADVD + DHCP6S</p>
+<h3 id="所有配置">所有配置</h3>
+<p>原理性的东西看上面的教程就知道了，这里直接分享所有配置和脚本。</p>
+<p>使用的前提是你已经按照 <a href="https://www.kancloud.cn/handsomehacker/openstick/2684880">https://www.kancloud.cn/handsomehacker/openstick/2684880</a> 的教程配置好网桥了，一切都是以该教程的配置为基础的。</p>
+<p>你还需要用  <code>apt install ndppd radvd wide-dhcpv6-server</code> 安装依赖软件。</p>
+<p>以下文件如果不存在则创建：</p>
+<p><code>/etc/NetworkManager/dispatcher.d/ipv6-conf.sh</code> 主要负责在网络变动的时候重新配置 IPv6</p>
+<p>配置完毕之后记得用 <code>chmod +x /etc/NetworkManager/dispatcher.d/ipv6-conf.sh</code> 给予执行权限</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>interface<span style="color:#f92672">=</span>$1
+</span></span><span style="display:flex;"><span>event<span style="color:#f92672">=</span>$2
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$interface<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;wwan0&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>        prefix<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>ip -6 addr show dev wwan0| sed -e<span style="color:#e6db74">&#39;s/^.*inet6 \([^ ]*\)\/.*$/\1/;t;d&#39;</span>|head -n 1|cut -f<span style="color:#e6db74">&#39;1-4&#39;</span> -d<span style="color:#e6db74">&#39;:&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># just assume prefix length /64 here</span>
+</span></span><span style="display:flex;"><span>        echo <span style="color:#e6db74">&#34;get prefix </span>$prefix<span style="color:#e6db74">::/64&#34;</span>|systemd-cat -t ipv6_conf
+</span></span><span style="display:flex;"><span>        cp /etc/ndppd.conf.bak /etc/ndppd.conf
+</span></span><span style="display:flex;"><span>        sed -i <span style="color:#e6db74">&#34;s/REPLACE_PREFIX_HERE/</span>$prefix<span style="color:#e6db74">:2333::\/80/g&#34;</span> /etc/ndppd.conf
+</span></span><span style="display:flex;"><span>        cp /etc/radvd.conf.bak /etc/radvd.conf
+</span></span><span style="display:flex;"><span>        sed -i <span style="color:#e6db74">&#34;s/REPLACE_PREFIX_HERE/</span>$prefix<span style="color:#e6db74">:2333::\/64/g&#34;</span> /etc/radvd.conf
+</span></span><span style="display:flex;"><span>        cp /etc/wide-dhcpv6/dhcp6s.conf.bak /etc/wide-dhcpv6/dhcp6s.conf
+</span></span><span style="display:flex;"><span>        sed -i <span style="color:#e6db74">&#34;s/PREFIX_MIN/</span>$prefix<span style="color:#e6db74">:2333::2000/g&#34;</span> /etc/wide-dhcpv6/dhcp6s.conf
+</span></span><span style="display:flex;"><span>        sed -i <span style="color:#e6db74">&#34;s/PREFIX_MAX/</span>$prefix<span style="color:#e6db74">:2333::3000/g&#34;</span> /etc/wide-dhcpv6/dhcp6s.conf
+</span></span><span style="display:flex;"><span>        systemctl restart radvd
+</span></span><span style="display:flex;"><span>        systemctl restart ndppd
+</span></span><span style="display:flex;"><span>        systemctl stop wide-dhcpv6-server
+</span></span><span style="display:flex;"><span>        systemctl start wide-dhcpv6-server
+</span></span><span style="display:flex;"><span>        echo <span style="color:#ae81ff">1</span> &gt; /proc/sys/net/ipv6/conf/all/forwarding
+</span></span><span style="display:flex;"><span>        sleep <span style="color:#ae81ff">30</span>
+</span></span><span style="display:flex;"><span>        echo <span style="color:#e6db74">&#34;setting route&#34;</span> |systemd-cat -t ipv6_conf
+</span></span><span style="display:flex;"><span>        ip -6 addr add $prefix:2333::1/80 dev br0
+</span></span><span style="display:flex;"><span>        ip -6 route add $prefix::/65 dev br0
+</span></span><span style="display:flex;"><span>        ip -6 route add $prefix:8000::/65 dev br0
+</span></span><span style="display:flex;"><span>        ip -6 route |systemd-cat -t ipv6_conf
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><p><code>/etc/ndppd.conf.bak</code> NDPPD的配置模板</p>
+<pre tabindex="0"><code>proxy wwan0 {
+    router yes
+    timeout 500
+    ttl 30000
+    rule REPLACE_PREFIX_HERE {
+auto
+}
+}
+</code></pre><p><code>/etc/radvd.conf.bak</code> RADVD的配置模板</p>
+<pre tabindex="0"><code>interface br0 {
+        AdvSendAdvert on;
+        AdvOtherConfigFlag on;
+        AdvManagedFlag on;
+        MinRtrAdvInterval 3;
+        MaxRtrAdvInterval 10;
+        prefix REPLACE_PREFIX_HERE {
+                AdvOnLink on;
+                AdvAutonomous on;
+                AdvRouterAddr off;
+        };
+};
+</code></pre><p><code>/etc/wide-dhcpv6/dhcp6s.conf.bak</code> DHCPv6服务器的配置模板</p>
+<pre tabindex="0"><code>interface br0 {
+        address-pool pool1 3600;
+};
+
+pool pool1 {
+        range PREFIX_MIN to PREFIX_MAX ;
+};
+</code></pre><p>如果不出意外的话，配置完这些之后你重启一下 ModemManager 或者重新插入一下棒子就能看到下面的效果。</p>
+<p><img src="/assets/usb-ecm-and-ipv6-for-openstick/image-20221006002254515.png" alt="image-20221006002254515"></p>
+<p>在ROS上也可以获取地址</p>
+<p><img src="/assets/usb-ecm-and-ipv6-for-openstick/image-20221006002433965.png" alt="image-20221006002433965"></p>
+<p>如果出了意外的话，请运用你的聪明才智进行解决~</p>
+<h2 id="换不同运营商卡之后-modem-not-found">换不同运营商卡之后 modem not found</h2>
+<p>好像是因为换运营商之后会把esim重新启用，所以导致找不到你的卡。参考这个解决：</p>
+<p><a href="https://techie-s.work/posts/2022/07/openstick-msm8916/">https://techie-s.work/posts/2022/07/openstick-msm8916/</a></p>
+<p>注意 /sys/class/leds/ 下面的路径名字可能不一样（比如我的叫sim:sel，自己看着改就好。</p>
+<p><img src="/assets/usb-ecm-and-ipv6-for-openstick/image-20221016021010125.png" alt="image-20221016021010125"></p>
+<h2 id="总结">总结</h2>
+<p>感谢送给我棒子的<a href="https://imoe.ac.cn/">寒烟w</a>，这个棒子的可玩性确实非常好：弄坏了能随时9008刷回去、4G还蛮稳定的、跑debian发热不严重。目前我在上面跑了 IPv6 DDNS 和 <a href="https://natfrp.com/">Frp</a> 做路由器的带外管理，为我的炸网行为增添多一重保障。</p>
+
+                    </div>
+                    
+                </div>
+                    
+                    
+                        <div class="bean article-comment article-comment-hidden">
+                            <div class="comment-container">
+                            <div id="gitalk-container"></div>
+<script>
+var href = new URL(window.location.href).pathname.split("/");
+var slug = href[href.length - 1] != "" ? href[href.length - 1] : href[href.length - 2]
+new Gitalk({
+  clientID: "fb4a07f44c3d7b079399",
+  clientSecret: "08adb9b8b4da92a812adb7257412c9efff4f92f4",
+  repo: "Blog-Comments",
+  owner: "Archeb",
+  admin: ["Archeb"],
+  proxy: "https://corsproxy.gfw.moe/corsproxy/?apiurl=https://github.com/login/oauth/access_token",
+  id: slug, 
+  distractionFreeMode: false, 
+}).render('gitalk-container')
+</script>
+
+                            </div>
+                        </div>
+                    
+                </div>
+                <div class="bean-tools">
+                    <div class="tool-btn" id="btn-top" title="回到顶部"
+                        onclick="document.querySelector('.bean-read').scrollTo({top: 0, behavior: 'smooth'})">
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                            <path
+                                d="M519.4 242.8l263.8 333.4c14.6 18.4 1.4 45.8-22.2 45.8H263c-23.6 0-36.8-27.4-22.2-45.8l263.8-333.4c10.4-13.2 30.4-13.2 40.8 0z"
+                                fill="currentColor" />
+                        </svg>
+                    </div>
+                    
+                    <div class="tool-btn" id="btn-comment" title="查看评论"
+                        onclick="toggleComments()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                            <path
+                                d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H6L4 18V4H20V16Z"
+                                fill="currentColor" />
+                        </svg>
+                    </div>
+                    
+                    <div class="tool-btn" id="btn-share" title="分享"
+                        onclick="navigator.share({title: document.title, url: window.location.href})">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                            <path
+                                d="M18 16.08C17.24 16.08 16.56 16.38 16.04 16.85L8.91 12.7C8.96 12.47 9 12.24 9 12C9 11.76 8.96 11.53 8.91 11.3L15.96 7.19C16.5 7.69 17.21 8 18 8C19.66 8 21 6.66 21 5C21 3.34 19.66 2 18 2C16.34 2 15 3.34 15 5C15 5.24 15.04 5.47 15.09 5.7L8.04 9.81C7.5 9.31 6.79 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.79 15 7.5 14.69 8.04 14.19L15.16 18.34C15.11 18.55 15.08 18.77 15.08 19C15.08 20.61 16.39 21.92 18 21.92C19.61 21.92 20.92 20.61 20.92 19C20.92 17.39 19.61 16.08 18 16.08Z"
+                                fill="currentColor" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            
+    <script src="/js/candy2.js"></script>
+</body>
+
+</html>

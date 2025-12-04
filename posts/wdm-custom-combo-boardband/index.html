@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="https://mozz.ie/">
+    <title>波分单线复用笑传之Custom Combo Broadband - 蚊帐</title>
+    <meta name="description"
+        content="只要一个￥38的波分复用器，巧妙解决小区单线入户但想多运营商接入的老生常谈问题">
+    
+    
+    <meta name="author" content="mozzie">
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/scss/style.min.8cfc2cbfa3045b86d83d069072970f07d42c0a725ca96062014a772e2d673366.css">
+    <link rel="icon" type="image/x-icon" href="/img/icon.png">
+    <meta name="view-transition" content="same-origin">
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+    
+    <meta property="og:title" content="波分单线复用笑传之Custom Combo Broadband" />
+<meta property="og:description" content="只要一个￥38的波分复用器，巧妙解决小区单线入户但想多运营商接入的老生常谈问题" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mozz.ie/posts/wdm-custom-combo-boardband/" /><meta property="og:image" content="https://mozz.ie/assets/wdm-custom-combo-boardband/xgspon3A_764X452.jpg" />
+<meta property="og:site_name" content="蚊帐" /><meta property="article:published_time" content="2025-04-19T00:00:00&#43;00:00" /><meta property="article:modified_time" content="2025-04-19T00:00:00&#43;00:00" />
+<meta property="article:section" content="技术" />
+    
+</head>
+
+<body>
+    
+
+<div class="container" id="container">
+    <div class="bean bean-main">
+    <div class="avatar">
+        <img src="/img/icon.png" alt="蚊帐">
+    </div>
+    <div class="blog-name">蚊帐</div>
+    <div class="links">
+        <a class="link-item " href="/">
+            <div class="link-container">
+                <span class="link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none"><path d="M7.5 2.75a.75.75 0 0 0-1.5 0v3a1.75 1.75 0 0 0 1.543 1.738L6.527 9.993a3.868 3.868 0 0 0 .119 3.143l3.99 7.95c.149.298.363.535.614.693V12.3a1.5 1.5 0 1 1 1.5 0v9.48c.251-.158.465-.395.615-.692l3.99-7.951c.481-.96.526-2.137.118-3.143l-1.016-2.505A1.75 1.75 0 0 0 18 5.75v-3a.75.75 0 0 0-1.5 0v3a.25.25 0 0 1-.25.25h-8.5a.25.25 0 0 1-.25-.25v-3z" fill="currentColor"></path></g></svg></span>
+                <span class="link-text">&nbsp;文章</span>
+            </div>
+        </a>
+        
+        <a class="link-item " href="/categories/%e6%8a%80%e6%9c%af/">
+            <div class="link-container">
+                <span class="link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16"><g fill="none"><path d="M11 1a4 4 0 0 0-3.896 4.91l-5.051 5.235a1.986 1.986 0 0 0 2.842 2.774l5.007-5.072a4.002 4.002 0 0 0 5.062-4.382a.5.5 0 0 0-.85-.287L12 6.293L9.707 4l2.115-2.115a.5.5 0 0 0-.287-.85A4.032 4.032 0 0 0 10.999 1z" fill="currentColor"></path></g></svg></span>
+                <span class="link-text">&nbsp;技术</span>
+            </div>
+        </a>
+        
+        <a class="link-item " href="/categories/%E6%97%A5%E5%B8%B8/">
+            <div class="link-container">
+                <span class="link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M21.05 17.56l-17.97.94L3 17l17.98-.94l.07 1.5zM21 19.48H3v1.5h18v-1.5zM22 5v7c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h16c1.1 0 2 .9 2 2zm-2 1c-1.68 0-3.04.98-3.21 2.23c-.64-.73-2.73-2.73-6.54-2.73c-4.67 0-6.75 3-6.75 3s2.08 3 6.75 3c3.81 0 5.9-2 6.54-2.73C16.96 10.02 18.32 11 20 11V6z" fill="currentColor"></path></svg></span>
+                <span class="link-text">&nbsp;日常</span>
+            </div>
+        </a>
+        
+        <a class="link-item " href="/links/">
+            <div class="link-container">
+                <span class="link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M29.25 6.76a6 6 0 0 0-8.5 0l1.42 1.42a4 4 0 1 1 5.67 5.67l-8 8a4 4 0 1 1-5.67-5.66l1.41-1.42l-1.41-1.42l-1.42 1.42a6 6 0 0 0 0 8.5A6 6 0 0 0 17 25a6 6 0 0 0 4.27-1.76l8-8a6 6 0 0 0-.02-8.48z" fill="currentColor"></path><path d="M4.19 24.82a4 4 0 0 1 0-5.67l8-8a4 4 0 0 1 5.67 0A3.94 3.94 0 0 1 19 14a4 4 0 0 1-1.17 2.85L15.71 19l1.42 1.42l2.12-2.12a6 6 0 0 0-8.51-8.51l-8 8a6 6 0 0 0 0 8.51A6 6 0 0 0 7 28a6.07 6.07 0 0 0 4.28-1.76l-1.42-1.42a4 4 0 0 1-5.67 0z" fill="currentColor"></path></svg></span>
+                <span class="link-text">&nbsp;链接</span>
+            </div>
+        </a>
+        
+        <a class="link-item " href="/about/">
+            <div class="link-container">
+                <span class="link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M25 10l1.593 3l3.407.414l-2.5 2.253L28 19l-3-1.875L22 19l.5-3.333l-2.5-2.253L23.5 13l1.5-3z" fill="currentColor"></path><path d="M22 30h-2v-5a5.006 5.006 0 0 0-5-5H9a5.006 5.006 0 0 0-5 5v5H2v-5a7.008 7.008 0 0 1 7-7h6a7.008 7.008 0 0 1 7 7z" fill="currentColor"></path><path d="M12 4a5 5 0 1 1-5 5a5 5 0 0 1 5-5m0-2a7 7 0 1 0 7 7a7 7 0 0 0-7-7z" fill="currentColor"></path></svg></span>
+                <span class="link-text">&nbsp;关于</span>
+            </div>
+        </a>
+        
+    </div>
+    <div class="meta-info">
+        <span class="show">Mozzie © 2025<br />Made With ♥</span>
+        <span class="hide">Theme Candy 2 By <a href="https://github.com/Archeb/candy2-hugo">Candy2-Hugo</a></span>
+    </div>
+</div>
+    <div id="contained-containers" class="contained-containers">
+        <div class="contained-beans">
+            
+                        <a href="https://mozz.ie/posts/wdm-custom-combo-boardband/" class="bean bean-article" style="background-image: url('/assets/wdm-custom-combo-boardband/xgspon3A_764X452.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2025年4月19日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>波分单线复用笑传之Custom Combo Broadband</span>
+        <div class="article-summary">
+            只要一个￥38的波分复用器，巧妙解决小区单线入户但想多运营商接入的老生常谈问题
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/homeassistant-integration-writeup/" class="bean bean-article" style="background-image: url('/assets/homeassistant-integration-writeup/photo_2025-03-22_01-05-25.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2025年3月22日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>新柏石KNX协议智能家居网关接入 HomeAssistant</span>
+        <div class="article-summary">
+            只需要一根网线和一些小技巧，将开发商精装送的全屋智能设备接入HA，同时完整保留对原有系统的兼容，不具侵入性。
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/dual-cgnat-routeros-wireguard-tunnel/" class="bean bean-article" style="background-image: url('/img/cover1.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2025年1月24日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>双方无公网状态下 RouterOS 基于 WireGuard 的组网方案</span>
+        <div class="article-summary">
+            双方无公网但其中一方是 Full Cone NAT，这种情况下如何用 RouterOS 组网？要解决这个问题，你需要一台 Linux（或者容器）来帮路由器打洞。
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/gdcu-iptv-playlist/" class="bean bean-article" style="background-image: url('/img/cover1.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2024年10月27日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>广东联通 IPTV 鉴权&amp;抓源脚本（以及碎碎念）</span>
+        <div class="article-summary">
+            效果和用途同上一篇一样，只不过换成了联通的，两家的架构大差不差。至于我为什么从电信换成了联通，请看正文
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/gdct-iptv-auth-and-fetch-playlist/" class="bean bean-article" style="background-image: url('/img/cover1.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2023年6月25日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>广东电信 IPTV 自助鉴权 &#43; 获取播放列表</span>
+        <div class="article-summary">
+            懒得每次失效都要重新抓包了，研究发现可以重放鉴权包，现在可以在电脑完成整个过程了
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/why-not-pon-fttr/" class="bean bean-article" style="background-image: url('/assets/why-not-pon-fttr/large-20220408_banner_cms_webinar_ftth-rollout_760x428.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2023年5月7日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>为什么我们要拒绝 PON 方案的 FTTR</span>
+        <div class="article-summary">
+            “FTTR 是一套很神奇的几乎没有任何优点的方案。很少见到这样全是缺点几乎没优点的方案”
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/turn-windows-11-into-server-2022/" class="bean bean-article" style="background-image: url('/assets/turn-windows-11-into-server-2022/Snipaste_2023-01-02_11-57-49.png');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2023年1月2日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>把 Windows 11/10 不完全转换为 Windows Server 2022</span>
+        <div class="article-summary">
+            当你想使用一些 Windows Server 专属功能的时候，你也许想要这么做。比如我打算用的 DDA （Discrete Device Assignment）功能。本文不涉及关于如何激活的内容，请自备许可证。
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/usb-ecm-and-ipv6-for-openstick/" class="bean bean-article" style="background-image: url('/assets/usb-ecm-and-ipv6-for-openstick/photo_2022-10-04_18-29-37.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2022年10月5日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">日常</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>高通410随身WiFi的进阶USB网络共享和IPv6配置</span>
+        <div class="article-summary">
+            主要包括 USB CDC-ECM 的配置以让它被 RouterOS 识别，还有基于 ND Proxy 的 IPv6 共享
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/thinkbook-14-g4&#43;ara-amd-ryzen-hands-on/" class="bean bean-article" style="background-image: url('/assets/ThinkBook-14-G4&#43;ARA-AMD-Ryzen-Hands-On/image-20220802032903453.png');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2022年8月1日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">日常</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>ThinkBook 14&#43; 锐龙版上手体验</span>
+        <div class="article-summary">
+            2022年，史称6800H年。
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/experience-summary-for-arch-and-kde/" class="bean bean-article" style="background-image: url('/assets/8854314f89b9e34d7201c.png');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2022年6月27日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">日常</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>ArchLinux &#43; KDE 一周使用小结</span>
+        <div class="article-summary">
+            蚊子の第二次 Linux 挑战，堂堂开幕！
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/fix-fractional-scaling-edge-chrome-position/" class="bean bean-article" style="background-image: url('/assets/images/2021/11/----_gjs_20211127130445.png.webp');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2021年11月27日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">日常</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">水</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>修复 Edge/Chrome 在 GNOME 分数缩放下的窗口位置问题</span>
+        <div class="article-summary">
+            从上周开始，老莱弄了个“Daily Driver CHALLENGE”，然后我也跟了一波风
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/extracting-iptv-live-streams/" class="bean bean-article" style="background-image: url('/img/cover1.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2021年4月12日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">日常</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">网络</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>轻松抓取并解析广东电信 IPTV 全部直播源</span>
+        <div class="article-summary">
+            老爸说想在卧室看电视，网上的电视直播软件大多都不怎么稳定，还有广告。而 GitHub 上的 IPTV 项目里的源清晰度也都不咋地。自己动手，丰衣足食，自己从机顶盒里抓吧！
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/ultimate-virtual-monitor-solution-indirect-display/" class="bean bean-article" style="background-image: url('/assets/images/2021/04/----1.png.webp');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2021年4月11日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>虚拟显示器终极解决方案 IndirectDisplay</span>
+        <div class="article-summary">
+            自从上了大学，因为学校在珠海家在广州距离不算远，所以我经常两头跑。别人两头跑带个笔记本也就好了；我虽
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/pve-based-home-network/" class="bean bean-article" style="background-image: url('/assets/images/size/w1000/2021/03/image.png.webp');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2021年3月6日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">网络</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>基于PVE的新网络架构 - 踩坑回顾</span>
+        <div class="article-summary">
+            用 LXC 容器来跑 OpenWRT 虽然很香，但也有一些坑。
+        </div>
+    </div>
+</a>
+                        
+                        <div class="bean-space"></div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="modal"
+                style="visibility: visible; background-color: rgba(0, 0, 0, 0.5); backdrop-filter: blur(20px);">
+                <div class="article-toc">
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#技术回顾波分复用技术">技术回顾：波分复用技术</a>
+      <ul>
+        <li><a href="#参数详解">参数详解</a></li>
+      </ul>
+    </li>
+    <li><a href="#方案">方案</a>
+      <ul>
+        <li><a href="#限制条件">限制条件</a></li>
+      </ul>
+    </li>
+    <li><a href="#部署实战">部署实战</a></li>
+    <li><a href="#结语">结语</a></li>
+  </ul>
+</nav>
+                </div>
+                <div class="modal-visible-container">
+                <div class="bean bean-read" style="transform: translate(0, 0);">
+                    <div class="modal-close">×</div>
+                    <div class="article-cover"
+                        style="background-image: url('/assets/wdm-custom-combo-boardband/xgspon3A_764X452.jpg');">
+                        <div></div>
+                        <div class="article-title">
+                            波分单线复用笑传之Custom Combo Broadband
+                            <div class="article-category">
+                                
+                                <div class="category-item">
+                                    <div class="item-text">技术</div>
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article-banner">
+                        <div id="banner-progressbar"></div>
+                        <div class="banner-content">
+                            
+                            <div class="banner-author">
+                                
+                                <div class="author-avatar">
+                                    <img src="/img/icon.png" alt="mozzie">
+                                </div>
+                                
+                                <span class="author-name">mozzie</span>
+                                <span class="publish-time">2025年4月19日</span>
+                                <span class="small-title">波分单线复用笑传之Custom Combo Broadband</span>
+                            </div>
+                            <div class="banner-tools">
+                                <span class="reading-time">阅读共需 1 分钟</span>
+                            </div>
+                        </div>
+                        <div class="mobile-close-btn"><svg xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32">
+                                <path
+                                    d="M24 9.4L22.6 8L16 14.6L9.4 8L8 9.4l6.6 6.6L8 22.6L9.4 24l6.6-6.6l6.6 6.6l1.4-1.4l-6.6-6.6L24 9.4z"
+                                    fill="currentColor"></path>
+                            </svg></div>
+                    </div>
+                    <div class="article-content">
+                        <p>在现在的小区建设中，开发商往往只会提供一条从弱电井到住户弱电箱的光纤入户线（有时根据广电系的专网要求，还会额外提供一条广电专用的入户线，也是光纤的；半新不老的小区可能有同轴共存），这区区一条光纤，对于我们这些宽带症候群患者来说如鲠在喉，让多少人建家里云的梦想破灭了。</p>
+<p>这个问题有许多传统的解决方案：最直接的当然是直接再拉一条或者换多芯的光缆，但要是不可行呢？有的尝试走邻居家的线再拉网线过来，有的冒着被偷的风险把光猫和收发器放在弱电井，有的甚至铤而走险私拉飞线（物业：我看到了但我装作没看到）。但这些方法不是太麻烦就是不够优雅，更别提可能带来的安全隐患和物业纠纷。</p>
+<p>那么，有没有一种既合规又优雅的方式，让我们在只有一根光纤的情况下实现多线接入呢？答案是肯定的——那就是WDM。</p>
+<h2 id="技术回顾波分复用技术">技术回顾：波分复用技术</h2>
+<p>在深入讲解我的解决方案前，让我们先来了解一下这个听起来就很高大上的“波分复用技术”。</p>
+<p>波分复用（WDM, Wavelength Division Multiplexing）说白了就是利用光的不同波长可以互不干扰的特性，在同一根光纤中传输多路信号。就像我们在马路上可以有多条车道一样，波分复用技术给光纤“画”出了多条“光的车道”，每个波长就是一条专用车道。</p>
+<p>在家庭宽带领域，主要使用的PON（无源光网络）技术有几种：</p>
+<ul>
+<li>GPON/EPON：早期技术，下行使用1490nm波长，上行使用1310nm波长</li>
+<li>XG(S)PON/10G-EPON：下一代接入技术（Next Generation Access），下行使用1577nm波长，上行使用1270nm波长</li>
+</ul>
+<p>看到这里，聪明的读者们可能已经发现了：这些技术使用的波长不同，这就为我们的复用创造了可能性。</p>
+<img src="/assets\wdm-custom-combo-boardband\image-20250419210240760.png" alt="image-20250419210240760" style="margin: 0px auto; zoom: 80%;" />
+<p>而实际上，运营商其实早就复用起来了！他们使用的 Combo PON 技术本质上就是波分复用，允许在同一个OLT端口和同一条光纤上同时支持GPON和XG(S)PON业务。我们今天要做的，不过是借用这个原理，先把他们的信号重新拆分，再按我们自己的需求合并起来——可以说是站在巨人的肩膀上搞小发明。</p>
+<p>那么，有哪些独立的波分复用器符合这个需求呢？一开始，我以为这是一个原理上可行但是小众的需求，因为大部分运营商部署的时候都是直接使用集成了 WDM1r 波分的 Combo PON 板卡。但是经过一番搜索，我找到了完美符合需求的一款设备——华为的WDM1r1201。</p>
+<img src="/assets\wdm-custom-combo-boardband\image-20250419210929615.png" alt="image-20250419210929615" style="margin: 0 auto;zoom:40%;" />
+<p>更可喜的是，这款设备算相当老的东西，有很多工程余料，所以别被淘宝的价格吓到了，闲鱼最低一张仅需￥38！（顺便一提，它还有一款给1550nm有线电视光链路的姐妹型号WDM1r2202，别买错了）</p>
+<h3 id="参数详解">参数详解</h3>
+<img src="/assets\wdm-custom-combo-boardband\image-20250419205743023.png" alt="image-20250419205743023" style="margin: 0 auto;zoom:50%;" />
+<p>来看一下<a href="https://actfornet.com/ueditor/php/upload/file/20201030/1604019658216728.pdf">Datasheet</a>里的示意图，WDM1r1201有三个端口：</p>
+<ul>
+<li>
+<p>GPON：GPON/EPON信号输入</p>
+</li>
+<li>
+<p>NGA（Next Generation Access）：XG(S)PON/对称10G-EPON信号输入</p>
+</li>
+<li>
+<p>COM（Common）：合成信号输出</p>
+</li>
+</ul>
+<p>这个小设备的工作原理非常巧妙，让我们再来看一下它的规格参数：</p>
+<img src="/assets\wdm-custom-combo-boardband\image-20250419210128568.png" alt="image-20250419210128568" style="margin: 0 auto;zoom:67%;" />
+<p>这张图描述的是从COM端口看过去，滤波器对不同波段的处理方式：</p>
+<ul>
+<li>NGA波段(1260-1280 &amp; 1524-1660 nm)是“Pass Band”：当混合信号进入COM端口时，NGA波段的信号会被通过并导向NGA端口。</li>
+<li>GPON波段(1300-1320 &amp; 1480-1500 nm)是“Reflector Band”：当混合信号进入COM端口时，GPON波段的信号会被反射至GPON端口。</li>
+</ul>
+<p>那么，当两个不同运营商的信号通过这个设备时会不会冲突呢？</p>
+<p>不会！这就是WDM设备的妙处：</p>
+<ul>
+<li>当ISP1的信号（包含NGA和GPON波长）输入到NGA端口时，只有NGA波长能通过到达COM口，而GPON波长会被阻止。</li>
+<li>当ISP2的信号（同样包含NGA和GPON波长）输入到GPON端口时，只有GPON波长能通过到达COM口，而NGA波长会被阻止。</li>
+</ul>
+<p>这样，到达COM端口（也就是我们的入户光纤）的就是经过精确筛选的、互不干扰的两种波长信号，就像两列火车在同一条轨道上行驶却永不相撞一样神奇！</p>
+<h2 id="方案">方案</h2>
+<p>基于上述技术原理，我们就可以设计一个方案，让一根光纤同时接入两个不同运营商的宽带。具体接线方案如下：</p>
+<p>为了称呼方便，下文将使用 <strong>上行1270nm、下行1577nm波长的 XG(S)PON / 对称10G-EPON 都称为 “NGA”（Next Generation Access）。</strong></p>
+<ol>
+<li><strong>小区弱电井端设置</strong>：
+<ul>
+<li>在小区弱电井（通信机房）中安装WDM1r1201波分复用器</li>
+<li>将运营商A（支持NGA的ISP）的线路连接到WDM的NGA端口</li>
+<li>将运营商B（支持GPON/EPON的ISP）的线路连接到WDM的GPON端口</li>
+<li>将WDM的COM端口连接到通往我们家的那条唯一的入户光纤</li>
+</ul>
+</li>
+<li><strong>家庭端设置</strong>：
+<ul>
+<li>在家中弱电箱处，将入户光纤连接到一个1:2光分路器（PLC Splitter）</li>
+<li>将光分路器的两个输出端分别连接到两个不同的光猫：
+<ul>
+<li>一个连接到支持NGA的光猫（用于运营商A的业务）</li>
+<li>一个连接到支持GPON/EPON的光猫（用于运营商B的业务）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>这种设置之所以能工作，是因为每个光猫都只对特定波长的信号敏感：</p>
+<ul>
+<li>NGA光猫只会响应1577nm（下行）和1270nm（上行）波长的信号</li>
+<li>GPON/EPON光猫只会响应1490nm（下行）和1310nm（上行）波长的信号</li>
+</ul>
+<p>即使两种信号同时存在于同一根光纤中，通过光分路器后到达两个光猫，每个光猫也只会“看到”并处理自己能理解的那个波长的信号，对其他波长的信号视而不见，因此不会产生任何干扰。</p>
+<p><strong>图示如下：</strong></p>
+<pre tabindex="0"><code>[运营商A NGA] ───────┐
+                    │
+                    ├── [WDM1r1201] ── [单根入户光纤] ── [1:2光分路器] ┬── [NGA光猫]
+                    │                                                │
+[运营商B GPON/EPON] ─┘                                               └── [GPON光猫]
+     弱电井侧                                                            家庭弱电箱侧
+</code></pre><h3 id="限制条件">限制条件</h3>
+<ul>
+<li>
+<p><strong>最多支持2个运营商</strong>，虽然理论上你可以再多接一个有线电视</p>
+</li>
+<li>
+<p><strong>运营商必须使用不同的PON标准</strong></p>
+<ul>
+<li>
+<p>一个运营商必须使用 GPON / EPON 标准</p>
+</li>
+<li>
+<p>另一个运营商必须使用 NGA 标准</p>
+</li>
+<li>
+<p>如果任一方或双方使用 Combo PON 技术也是可行的（因为 Combo PON 本身就以上两种标准的组合）</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>不兼容 10G EPON（非对称）</strong>，其所使用的上行波长与GPON/EPON的上行波长相同，都是1310nm左右，会导致信号干扰。</p>
+</li>
+<li>
+<p><strong>需要能进入小区弱电井</strong>，你要在里面放置这个波分器（东西很小，而且是无源设备，应该没什么问题）</p>
+</li>
+</ul>
+<h2 id="部署实战">部署实战</h2>
+<p>运营商A：中国联通（GPON+XGPON ComboPON）</p>
+<p>运营商B：中国电信（GPON+XGPON ComboPON）</p>
+<p>我家所在小区的通信机房位于某一栋楼的负一层，整个小区的入户线都汇聚于此，而三大运营商的接入箱也放在这里。这种布置基本断绝了任何飞线或者重新布线的可能。</p>
+<p>材料购买：</p>
+<table>
+  <thead>
+      <tr>
+          <th>名称</th>
+          <th>数量</th>
+          <th>价格</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>WDM1r1201 波分</td>
+          <td>1</td>
+          <td>38元+10元邮费</td>
+      </tr>
+      <tr>
+          <td>1:2分光器</td>
+          <td>1</td>
+          <td>10元</td>
+      </tr>
+      <tr>
+          <td>SC-LC跳线</td>
+          <td>2</td>
+          <td>4元</td>
+      </tr>
+      <tr>
+          <td>SC-SC跳线</td>
+          <td>2</td>
+          <td>4元</td>
+      </tr>
+      <tr>
+          <td><strong>总计</strong></td>
+          <td></td>
+          <td><strong>66元</strong></td>
+      </tr>
+  </tbody>
+</table>
+<p>弱电井侧接线：</p>
+<img src="/assets\wdm-custom-combo-boardband\photo_2025-04-19_21-22-11.jpg" alt="photo_2025-04-19_21-22-11" style="margin: 0 auto;zoom:50%;" />
+<p>弱电箱侧接线：</p>
+<img src="/assets\wdm-custom-combo-boardband\photo_2025-04-19_21-22-17.jpg" alt="photo_2025-04-19_21-22-17" style="margin: 0 auto;zoom:50%;" />
+<p>接入光衰：</p>
+<img src="/assets\wdm-custom-combo-boardband\image-20250419212927154.png" alt="image-20250419212927154" style="margin: 0 auto;zoom: 67%;" />
+<img src="/assets/wdm-custom-combo-boardband/image-20250420114432999.png" alt="image-20250420114432999" style="margin: 0 auto;zoom:67%;" />
+<p>拨号：</p>
+<img src="/assets\wdm-custom-combo-boardband\image-20250419213004149.png" alt="image-20250419213004149" style="margin: 0 auto;zoom:67%;" />
+<p>测速：</p>
+<img src="/assets\wdm-custom-combo-boardband\image-20250419213056212.png" alt="image-20250419213056212" style="margin: 0 auto;zoom: 50%;" />
+<img src="/assets\wdm-custom-combo-boardband\image-20250419213136197.png" alt="image-20250419213136197" style="margin: 0 auto;zoom:50%;" />
+<p>结论：圆满成功！</p>
+<h2 id="结语">结语</h2>
+<p>通过这个波分复用的小魔法，我们成功地在只有一根光纤的情况下实现了双线接入。这个方案有几个明显的优势：</p>
+<ol>
+<li><strong>完全合规</strong>：不需要私拉飞线或者借用邻居的线路，一切都在小区弱电井和自家弱电箱内完成。</li>
+<li><strong>简单易行</strong>：只需一个WDM设备和一个光分路器，接线也非常直观。</li>
+<li><strong>性能无损</strong>：由于波分复用的特性，两路信号互不干扰，各自的带宽和稳定性都不受影响。整个路程的光损耗大概在3dbm左右。只要你本来不是-25dbm以下的极限弱光（这种情况本来运营商也应该来调），都可以使用。</li>
+<li><strong>成本低廉</strong>：相比其他解决方案，WDM设备和光分路器都是无源设备，价格非常亲民，一次投入长期受益。</li>
+<li><strong>无需改动现有基础设施</strong>：整个方案只需在小区弱电井和家中弱电箱做简单连接，不需要更改任何墙内布线或小区基础设施。</li>
+</ol>
+<p>尽管有一些限制条件，但对于大多数用户来说，这个方案已经足够实用。</p>
+<p>在构想这个方案的过程中，我得到了 falling 大叔和神秘工友的启发和指导。其实这个方案应该许多人都想过，不过网上并没有搜到在家宽上实施并且分享出来的，所以我写了这么一篇博客，希望有同样困扰的大家能够从中受益，如果有任何问题或者想法，欢迎留言探讨~</p>
+
+                    </div>
+                    
+                </div>
+                    
+                    
+                        <div class="bean article-comment article-comment-hidden">
+                            <div class="comment-container">
+                            <div id="gitalk-container"></div>
+<script>
+var href = new URL(window.location.href).pathname.split("/");
+var slug = href[href.length - 1] != "" ? href[href.length - 1] : href[href.length - 2]
+new Gitalk({
+  clientID: "fb4a07f44c3d7b079399",
+  clientSecret: "08adb9b8b4da92a812adb7257412c9efff4f92f4",
+  repo: "Blog-Comments",
+  owner: "Archeb",
+  admin: ["Archeb"],
+  proxy: "https://corsproxy.gfw.moe/corsproxy/?apiurl=https://github.com/login/oauth/access_token",
+  id: slug, 
+  distractionFreeMode: false, 
+}).render('gitalk-container')
+</script>
+
+                            </div>
+                        </div>
+                    
+                </div>
+                <div class="bean-tools">
+                    <div class="tool-btn" id="btn-top" title="回到顶部"
+                        onclick="document.querySelector('.bean-read').scrollTo({top: 0, behavior: 'smooth'})">
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                            <path
+                                d="M519.4 242.8l263.8 333.4c14.6 18.4 1.4 45.8-22.2 45.8H263c-23.6 0-36.8-27.4-22.2-45.8l263.8-333.4c10.4-13.2 30.4-13.2 40.8 0z"
+                                fill="currentColor" />
+                        </svg>
+                    </div>
+                    
+                    <div class="tool-btn" id="btn-comment" title="查看评论"
+                        onclick="toggleComments()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                            <path
+                                d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H6L4 18V4H20V16Z"
+                                fill="currentColor" />
+                        </svg>
+                    </div>
+                    
+                    <div class="tool-btn" id="btn-share" title="分享"
+                        onclick="navigator.share({title: document.title, url: window.location.href})">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                            <path
+                                d="M18 16.08C17.24 16.08 16.56 16.38 16.04 16.85L8.91 12.7C8.96 12.47 9 12.24 9 12C9 11.76 8.96 11.53 8.91 11.3L15.96 7.19C16.5 7.69 17.21 8 18 8C19.66 8 21 6.66 21 5C21 3.34 19.66 2 18 2C16.34 2 15 3.34 15 5C15 5.24 15.04 5.47 15.09 5.7L8.04 9.81C7.5 9.31 6.79 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.79 15 7.5 14.69 8.04 14.19L15.16 18.34C15.11 18.55 15.08 18.77 15.08 19C15.08 20.61 16.39 21.92 18 21.92C19.61 21.92 20.92 20.61 20.92 19C20.92 17.39 19.61 16.08 18 16.08Z"
+                                fill="currentColor" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            
+    <script src="/js/candy2.js"></script>
+</body>
+
+</html>

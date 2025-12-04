@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="https://mozz.ie/">
+    <title>基于PVE的新网络架构 - 踩坑回顾 - 蚊帐</title>
+    <meta name="description"
+        content="用 LXC 容器来跑 OpenWRT 虽然很香，但也有一些坑。">
+    
+    
+    <meta name="author" content="mozzie">
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/scss/style.min.8cfc2cbfa3045b86d83d069072970f07d42c0a725ca96062014a772e2d673366.css">
+    <link rel="icon" type="image/x-icon" href="/img/icon.png">
+    <meta name="view-transition" content="same-origin">
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+    
+    <meta property="og:title" content="基于PVE的新网络架构 - 踩坑回顾" />
+<meta property="og:description" content="用 LXC 容器来跑 OpenWRT 虽然很香，但也有一些坑。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mozz.ie/posts/pve-based-home-network/" /><meta property="og:image" content="https://mozz.ie/assets/images/size/w1000/2021/03/image.png.webp" />
+<meta property="og:site_name" content="蚊帐" /><meta property="article:published_time" content="2021-03-06T00:00:00&#43;00:00" /><meta property="article:modified_time" content="2021-03-06T00:00:00&#43;00:00" />
+<meta property="article:section" content="技术" />
+<meta property="article:section" content="网络" />
+    
+</head>
+
+<body>
+    
+
+<div class="container" id="container">
+    <div class="bean bean-main">
+    <div class="avatar">
+        <img src="/img/icon.png" alt="蚊帐">
+    </div>
+    <div class="blog-name">蚊帐</div>
+    <div class="links">
+        <a class="link-item " href="/">
+            <div class="link-container">
+                <span class="link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none"><path d="M7.5 2.75a.75.75 0 0 0-1.5 0v3a1.75 1.75 0 0 0 1.543 1.738L6.527 9.993a3.868 3.868 0 0 0 .119 3.143l3.99 7.95c.149.298.363.535.614.693V12.3a1.5 1.5 0 1 1 1.5 0v9.48c.251-.158.465-.395.615-.692l3.99-7.951c.481-.96.526-2.137.118-3.143l-1.016-2.505A1.75 1.75 0 0 0 18 5.75v-3a.75.75 0 0 0-1.5 0v3a.25.25 0 0 1-.25.25h-8.5a.25.25 0 0 1-.25-.25v-3z" fill="currentColor"></path></g></svg></span>
+                <span class="link-text">&nbsp;文章</span>
+            </div>
+        </a>
+        
+        <a class="link-item " href="/categories/%e6%8a%80%e6%9c%af/">
+            <div class="link-container">
+                <span class="link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16"><g fill="none"><path d="M11 1a4 4 0 0 0-3.896 4.91l-5.051 5.235a1.986 1.986 0 0 0 2.842 2.774l5.007-5.072a4.002 4.002 0 0 0 5.062-4.382a.5.5 0 0 0-.85-.287L12 6.293L9.707 4l2.115-2.115a.5.5 0 0 0-.287-.85A4.032 4.032 0 0 0 10.999 1z" fill="currentColor"></path></g></svg></span>
+                <span class="link-text">&nbsp;技术</span>
+            </div>
+        </a>
+        
+        <a class="link-item " href="/categories/%E6%97%A5%E5%B8%B8/">
+            <div class="link-container">
+                <span class="link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M21.05 17.56l-17.97.94L3 17l17.98-.94l.07 1.5zM21 19.48H3v1.5h18v-1.5zM22 5v7c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h16c1.1 0 2 .9 2 2zm-2 1c-1.68 0-3.04.98-3.21 2.23c-.64-.73-2.73-2.73-6.54-2.73c-4.67 0-6.75 3-6.75 3s2.08 3 6.75 3c3.81 0 5.9-2 6.54-2.73C16.96 10.02 18.32 11 20 11V6z" fill="currentColor"></path></svg></span>
+                <span class="link-text">&nbsp;日常</span>
+            </div>
+        </a>
+        
+        <a class="link-item " href="/links/">
+            <div class="link-container">
+                <span class="link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M29.25 6.76a6 6 0 0 0-8.5 0l1.42 1.42a4 4 0 1 1 5.67 5.67l-8 8a4 4 0 1 1-5.67-5.66l1.41-1.42l-1.41-1.42l-1.42 1.42a6 6 0 0 0 0 8.5A6 6 0 0 0 17 25a6 6 0 0 0 4.27-1.76l8-8a6 6 0 0 0-.02-8.48z" fill="currentColor"></path><path d="M4.19 24.82a4 4 0 0 1 0-5.67l8-8a4 4 0 0 1 5.67 0A3.94 3.94 0 0 1 19 14a4 4 0 0 1-1.17 2.85L15.71 19l1.42 1.42l2.12-2.12a6 6 0 0 0-8.51-8.51l-8 8a6 6 0 0 0 0 8.51A6 6 0 0 0 7 28a6.07 6.07 0 0 0 4.28-1.76l-1.42-1.42a4 4 0 0 1-5.67 0z" fill="currentColor"></path></svg></span>
+                <span class="link-text">&nbsp;链接</span>
+            </div>
+        </a>
+        
+        <a class="link-item " href="/about/">
+            <div class="link-container">
+                <span class="link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M25 10l1.593 3l3.407.414l-2.5 2.253L28 19l-3-1.875L22 19l.5-3.333l-2.5-2.253L23.5 13l1.5-3z" fill="currentColor"></path><path d="M22 30h-2v-5a5.006 5.006 0 0 0-5-5H9a5.006 5.006 0 0 0-5 5v5H2v-5a7.008 7.008 0 0 1 7-7h6a7.008 7.008 0 0 1 7 7z" fill="currentColor"></path><path d="M12 4a5 5 0 1 1-5 5a5 5 0 0 1 5-5m0-2a7 7 0 1 0 7 7a7 7 0 0 0-7-7z" fill="currentColor"></path></svg></span>
+                <span class="link-text">&nbsp;关于</span>
+            </div>
+        </a>
+        
+    </div>
+    <div class="meta-info">
+        <span class="show">Mozzie © 2025<br />Made With ♥</span>
+        <span class="hide">Theme Candy 2 By <a href="https://github.com/Archeb/candy2-hugo">Candy2-Hugo</a></span>
+    </div>
+</div>
+    <div id="contained-containers" class="contained-containers">
+        <div class="contained-beans">
+            
+                        <a href="https://mozz.ie/posts/wdm-custom-combo-boardband/" class="bean bean-article" style="background-image: url('/assets/wdm-custom-combo-boardband/xgspon3A_764X452.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2025年4月19日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>波分单线复用笑传之Custom Combo Broadband</span>
+        <div class="article-summary">
+            只要一个￥38的波分复用器，巧妙解决小区单线入户但想多运营商接入的老生常谈问题
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/homeassistant-integration-writeup/" class="bean bean-article" style="background-image: url('/assets/homeassistant-integration-writeup/photo_2025-03-22_01-05-25.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2025年3月22日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>新柏石KNX协议智能家居网关接入 HomeAssistant</span>
+        <div class="article-summary">
+            只需要一根网线和一些小技巧，将开发商精装送的全屋智能设备接入HA，同时完整保留对原有系统的兼容，不具侵入性。
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/dual-cgnat-routeros-wireguard-tunnel/" class="bean bean-article" style="background-image: url('/img/cover1.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2025年1月24日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>双方无公网状态下 RouterOS 基于 WireGuard 的组网方案</span>
+        <div class="article-summary">
+            双方无公网但其中一方是 Full Cone NAT，这种情况下如何用 RouterOS 组网？要解决这个问题，你需要一台 Linux（或者容器）来帮路由器打洞。
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/gdcu-iptv-playlist/" class="bean bean-article" style="background-image: url('/img/cover1.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2024年10月27日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>广东联通 IPTV 鉴权&amp;抓源脚本（以及碎碎念）</span>
+        <div class="article-summary">
+            效果和用途同上一篇一样，只不过换成了联通的，两家的架构大差不差。至于我为什么从电信换成了联通，请看正文
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/gdct-iptv-auth-and-fetch-playlist/" class="bean bean-article" style="background-image: url('/img/cover1.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2023年6月25日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>广东电信 IPTV 自助鉴权 &#43; 获取播放列表</span>
+        <div class="article-summary">
+            懒得每次失效都要重新抓包了，研究发现可以重放鉴权包，现在可以在电脑完成整个过程了
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/why-not-pon-fttr/" class="bean bean-article" style="background-image: url('/assets/why-not-pon-fttr/large-20220408_banner_cms_webinar_ftth-rollout_760x428.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2023年5月7日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>为什么我们要拒绝 PON 方案的 FTTR</span>
+        <div class="article-summary">
+            “FTTR 是一套很神奇的几乎没有任何优点的方案。很少见到这样全是缺点几乎没优点的方案”
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/turn-windows-11-into-server-2022/" class="bean bean-article" style="background-image: url('/assets/turn-windows-11-into-server-2022/Snipaste_2023-01-02_11-57-49.png');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2023年1月2日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>把 Windows 11/10 不完全转换为 Windows Server 2022</span>
+        <div class="article-summary">
+            当你想使用一些 Windows Server 专属功能的时候，你也许想要这么做。比如我打算用的 DDA （Discrete Device Assignment）功能。本文不涉及关于如何激活的内容，请自备许可证。
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/usb-ecm-and-ipv6-for-openstick/" class="bean bean-article" style="background-image: url('/assets/usb-ecm-and-ipv6-for-openstick/photo_2022-10-04_18-29-37.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2022年10月5日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">日常</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>高通410随身WiFi的进阶USB网络共享和IPv6配置</span>
+        <div class="article-summary">
+            主要包括 USB CDC-ECM 的配置以让它被 RouterOS 识别，还有基于 ND Proxy 的 IPv6 共享
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/thinkbook-14-g4&#43;ara-amd-ryzen-hands-on/" class="bean bean-article" style="background-image: url('/assets/ThinkBook-14-G4&#43;ARA-AMD-Ryzen-Hands-On/image-20220802032903453.png');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2022年8月1日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">日常</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>ThinkBook 14&#43; 锐龙版上手体验</span>
+        <div class="article-summary">
+            2022年，史称6800H年。
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/experience-summary-for-arch-and-kde/" class="bean bean-article" style="background-image: url('/assets/8854314f89b9e34d7201c.png');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2022年6月27日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">日常</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>ArchLinux &#43; KDE 一周使用小结</span>
+        <div class="article-summary">
+            蚊子の第二次 Linux 挑战，堂堂开幕！
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/fix-fractional-scaling-edge-chrome-position/" class="bean bean-article" style="background-image: url('/assets/images/2021/11/----_gjs_20211127130445.png.webp');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2021年11月27日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">日常</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">水</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>修复 Edge/Chrome 在 GNOME 分数缩放下的窗口位置问题</span>
+        <div class="article-summary">
+            从上周开始，老莱弄了个“Daily Driver CHALLENGE”，然后我也跟了一波风
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/extracting-iptv-live-streams/" class="bean bean-article" style="background-image: url('/img/cover1.jpg');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2021年4月12日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">日常</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">网络</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>轻松抓取并解析广东电信 IPTV 全部直播源</span>
+        <div class="article-summary">
+            老爸说想在卧室看电视，网上的电视直播软件大多都不怎么稳定，还有广告。而 GitHub 上的 IPTV 项目里的源清晰度也都不咋地。自己动手，丰衣足食，自己从机顶盒里抓吧！
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/ultimate-virtual-monitor-solution-indirect-display/" class="bean bean-article" style="background-image: url('/assets/images/2021/04/----1.png.webp');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2021年4月11日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>虚拟显示器终极解决方案 IndirectDisplay</span>
+        <div class="article-summary">
+            自从上了大学，因为学校在珠海家在广州距离不算远，所以我经常两头跑。别人两头跑带个笔记本也就好了；我虽
+        </div>
+    </div>
+</a>
+                        
+                        <a href="https://mozz.ie/posts/pve-based-home-network/" class="bean bean-article" style="background-image: url('/assets/images/size/w1000/2021/03/image.png.webp');">
+    <div class="article-category">
+        <div class="category-item">
+            <div class="item-text">2021年3月6日</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">技术</div>
+        </div>
+        <div class="category-item">
+            <div class="item-text">网络</div>
+        </div>
+    </div>
+    <div class="article-title">
+        <span>基于PVE的新网络架构 - 踩坑回顾</span>
+        <div class="article-summary">
+            用 LXC 容器来跑 OpenWRT 虽然很香，但也有一些坑。
+        </div>
+    </div>
+</a>
+                        
+                        <div class="bean-space"></div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="modal"
+                style="visibility: visible; background-color: rgba(0, 0, 0, 0.5); backdrop-filter: blur(20px);">
+                <div class="article-toc">
+                    <nav id="TableOfContents"></nav>
+                </div>
+                <div class="modal-visible-container">
+                <div class="bean bean-read" style="transform: translate(0, 0);">
+                    <div class="modal-close">×</div>
+                    <div class="article-cover"
+                        style="background-image: url('/assets/images/size/w1000/2021/03/image.png.webp');">
+                        <div></div>
+                        <div class="article-title">
+                            基于PVE的新网络架构 - 踩坑回顾
+                            <div class="article-category">
+                                
+                                <div class="category-item">
+                                    <div class="item-text">技术</div>
+                                </div>
+                                
+                                <div class="category-item">
+                                    <div class="item-text">网络</div>
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article-banner">
+                        <div id="banner-progressbar"></div>
+                        <div class="banner-content">
+                            
+                            <div class="banner-author">
+                                
+                                <div class="author-avatar">
+                                    <img src="/img/icon.png" alt="mozzie">
+                                </div>
+                                
+                                <span class="author-name">mozzie</span>
+                                <span class="publish-time">2021年3月6日</span>
+                                <span class="small-title">基于PVE的新网络架构 - 踩坑回顾</span>
+                            </div>
+                            <div class="banner-tools">
+                                <span class="reading-time">阅读共需 2 分钟</span>
+                            </div>
+                        </div>
+                        <div class="mobile-close-btn"><svg xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32">
+                                <path
+                                    d="M24 9.4L22.6 8L16 14.6L9.4 8L8 9.4l6.6 6.6L8 22.6L9.4 24l6.6-6.6l6.6 6.6l1.4-1.4l-6.6-6.6L24 9.4z"
+                                    fill="currentColor"></path>
+                            </svg></div>
+                    </div>
+                    <div class="article-content">
+                        <p>我美好的寒假的第一天，毁于那多灾多难的 OpenWRT：当我第七七四十九次折腾 OpenWRT 上的隧道而他又莫名其妙的开始爆炸时，我怒了。</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="/assets/images/2021/03/image.png.webp" class="kg-image" alt srcset="/assets/images/size/w600/2021/03/image.png.webp 600w, /assets/images/size/w1000/2021/03/image.png.webp 1000w, /assets/images/2021/03/image.png.webp 1280w" sizes="(min-width: 720px) 720px"><figcaption>说的就是你，xl2tpd</figcaption></figure><p>我实在是搞不明白，在 Windows 下面轻轻松松跑个三四百兆的 L2TP 连接，怎么到了 OpenWRT 上下载就只有 20M 不到，上传一跑直接爆炸。</p><p>冥冥之中，有一股神秘的声音（其实是西瓜）在我耳畔低语：为什么不试试上虚拟化的 RouterOS 呢？</p><p>尽管西瓜一再抨击 Proxmox VE 而向我推销他的 Xen，但是因为我对 PVE 更加熟悉，最后还是选择了 PVE （事实证明这是好的）</p><p>于是我做出了初步的计划：在 PVE 上跑 RouterOS + OpenWRT；RouterOS 负责打隧道（PPPoE、L2TP、PPTP、GRE），OpenWRT 负责做透明代理；用 DHCP 对不同的设备分配不同的网关达到分流和故障控制的效果。</p><!--kg-card-begin: markdown--><p>上网下了一个PVE，找了一个 6.44.2 的 L5 授权破解版（和卖盗版电子盘的原理有异曲同工之妙，都是改硬盘序列号），写盘、装系统、部署一气呵成，<s>是 BGP Player 中的豪杰</s>。</p>
+<p>后续 AJ 大哥告诉我 CHR 版本也可以无限白嫖，是一个更好的选择，不过这时候我已经配好了，反正都是一样的用，如果没有什么安全问题就不换 CHR 了。</p>
+<!--kg-card-end: markdown--><p>RouterOS 的配置十分简单便捷，J1900 软路由的四个接口分别对应一个 Linux Bridge 再分配到 ROS 的 VM 上就行了。在这个阶段我只踩到了一个坑：ether5 上的 vlan33 里面有一台主机 192.168.6.99，但是我给 vlan33 配了 192.168.6.1/24 之后还是 ping 不通这台机子，torch 能看到这台机子往外发包。排查了十分钟之后我把接口的 loop detect 给关了，问题解决。</p><p>接下来是 OpenWRT，本来也打算用 VM 的，但是我思考了半秒，发现：</p><p>既然 PVE 宿主机跑的是 Linux，OpenWRT 跑的也是 Linux，我可不可以用什么容器化技术跑它呢？</p><p>然后我想起来 PVE 的 LXC 容器，参考了一下<a href="https://post.smzdm.com/p/a5kqz7v3/">张大妈这篇</a>和<a href="https://www.right.com.cn/forum/thread-4058776-1-1.html">恩山这篇</a>文章 ，根据以下几步，十分轻易地搭建了起来。</p><ul><li>选一个喜欢的 x86 固件，官方版也可以</li><li>下载这个固件的 squashfs 版本，官方的好像可以直接下 rootfs</li><li>unsquashfs 把固件提取出来，再次打包成 rootfs.tar.gz</li><li>把打包好的或者官方的 rootfs 上传到 PVE</li><li>用控制台新建 LXC 容器（参考恩山文章）即可</li></ul><p>搭建是搭建好了，我也能访问 LuCI，下一个问题接踵而来：居然没有 NAT？！</p><p>事出反常必有妖，这个问题被我从多角度全方位进行了排查：</p><ul><li>重启防火墙、调整防火墙区域：无效</li><li>检查 OpenWRT 自己可不可以上网：可以</li><li>关闭 RouterOS 让 OpenWRT 单独做网关：无效</li><li>手动添加 SNAT MASQUERADE：可以</li></ul><p>问题出现了进展，我开始怀疑这个固件的防火墙有 BUG，不会自动加 NAT</p><ul><li>换其他第三方固件：一样没有 NAT</li><li>用 VM 模式启动 OpenWRT：可以</li></ul><p>到这里我本来已经打算妥协，抛弃 LXC 投奔 VM 了。但是我最后又尝试了一次，把“启用 FullCone-NAT” 给取消了，你猜怎么着，添加成功了。</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="/assets/images/2021/03/image-1.png.webp" class="kg-image" alt><figcaption>许多第三方固件都有的功能，官方没有</figcaption></figure><p>瞬间我又有了折腾的动力，顺着这条线索，我去看了看这个功能所依赖的 <a href="https://github.com/LGA1150/fullconenat-fw3-patch/blob/master/fullconenat.patch">LGA1150/fullconenat-fw3-patch</a></p><!--kg-card-begin: markdown--><pre><code class="language-c">if (zone-&gt;fullcone &amp;&amp; (access(&quot;/usr/lib/iptables/libipt_FULLCONENAT.so&quot;, 0) == 0)) {
+    r = fw3_ipt_rule_new(handle);
+    fw3_ipt_rule_src_dest(r, msrc, mdest);
+    fw3_ipt_rule_target(r, &quot;FULLCONENAT&quot;);
+    fw3_ipt_rule_append(r, &quot;zone_%s_postrouting&quot;, zone-&gt;name);
+    r = fw3_ipt_rule_new(handle);
+    fw3_ipt_rule_src_dest(r, msrc, mdest);
+    fw3_ipt_rule_target(r, &quot;FULLCONENAT&quot;);
+    fw3_ipt_rule_append(r, &quot;zone_%s_prerouting&quot;, zone-&gt;name);
+} else {
+    r = fw3_ipt_rule_new(handle);
+    fw3_ipt_rule_src_dest(r, msrc, mdest);
+    fw3_ipt_rule_target(r, &quot;MASQUERADE&quot;);
+</code></pre>
+<!--kg-card-end: markdown--><p>再手动尝试加载这个内核模块 </p><!--kg-card-begin: markdown--><pre><code>root@CTOpenWrt:~# modprobe xt_FULLCONENAT
+no module folders for kernel version 5.4.73-1-pve found
+</code></pre>
+<!--kg-card-end: markdown--><p>一切问题都浮出水面了。</p><p>让我来讲讲这里面的道理：</p><ul><li>如果在 LuCI 里面选择启用 FullCone NAT</li><li>原来的行为是添加一个-j MASQUERADE，则改为添加一个-j FULLCONENAT</li><li>我选择了使用，他尝试添加一个-j FULLCONENAT</li><li>但是因为内核模块加载失败，所以没有对应的 target，也就添加失败了</li><li>这个 patch 没有检测添加失败的情况，不会 fallback 到普通的 MASQUERADE</li><li>我失去了 NAT</li></ul><p>那么解决问题的第一步是让他加载上内核模块，我尝试过寻找对应 PVE 内核版本的编译好的 kmod，但是很显然并不存在这种东西，那么就自己编译吧！</p><ul><li>找到这个 patch 实际依赖的内核模块是这个 <a class="kg-bookmark-container" href="https://github.com/Chion82/netfilter-full-cone-nat">Chion82/netfilter-full-cone-nat</a></li></ul><ul><li>尝试编译，编译出错，缺少头文件</li><li><a href="http://download.proxmox.com/debian/pve/dists/buster/pvetest/binary-amd64/">翻箱倒柜</a>找到了对应版本的 Header（反正 apt 源里没有，好像要钱）</li><li>再次编译，编译成功，insmod 成功</li></ul><figure class="kg-card kg-image-card"><img src="/assets/images/2021/03/image-2.png.webp" class="kg-image"></figure><p>然后，这就是 ROS + OpenWRT 做的完美 Full Cone NAT</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="/assets/images/2021/03/image-3.png.webp" class="kg-image"><figcaption>ROS&nbsp;上的配置</figcaption></figure><p>要达到这样的效果，只需要在 RouterOS 防火墙的 NAT 规则最后加上一条把所有 （没有匹配 ROS 自己做的 NAT 及其他规则的） UDP 都转发到 OpenWRT 上去就可以了。</p><p>顺带一提我发现这个 OpenWRT 也没办法直接 PPPoE 拨号，因为 PPP 也依赖内核模块实现，同样自己编译然后加载应该就能解决问题。不过这部分工作我是交给 ROS 做的，所以没有实战解决，欢迎大家自己来踩坑试试（不是）</p><p>以上就是我的所有踩坑内容了，目前为止运行了 35 天都非常稳定，彻底摆脱了一周不重启就有各种各样奇奇怪怪毛病的日子。目前来看 J1900 是足够应付 200M 宽带 + 透明网关代理的，如果不够升级一下硬件就行，这套架构是没什么问题的。</p><figure class="kg-card kg-image-card"><img src="/assets/images/2021/03/image-4.png.webp"></figure><p>以上内容，因为行文仓促，难免有谬误，欢迎大家在评论留言指正</p>
+
+                    </div>
+                    
+                </div>
+                    
+                    
+                        <div class="bean article-comment article-comment-hidden">
+                            <div class="comment-container">
+                            <div id="gitalk-container"></div>
+<script>
+var href = new URL(window.location.href).pathname.split("/");
+var slug = href[href.length - 1] != "" ? href[href.length - 1] : href[href.length - 2]
+new Gitalk({
+  clientID: "fb4a07f44c3d7b079399",
+  clientSecret: "08adb9b8b4da92a812adb7257412c9efff4f92f4",
+  repo: "Blog-Comments",
+  owner: "Archeb",
+  admin: ["Archeb"],
+  proxy: "https://corsproxy.gfw.moe/corsproxy/?apiurl=https://github.com/login/oauth/access_token",
+  id: slug, 
+  distractionFreeMode: false, 
+}).render('gitalk-container')
+</script>
+
+                            </div>
+                        </div>
+                    
+                </div>
+                <div class="bean-tools">
+                    <div class="tool-btn" id="btn-top" title="回到顶部"
+                        onclick="document.querySelector('.bean-read').scrollTo({top: 0, behavior: 'smooth'})">
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                            <path
+                                d="M519.4 242.8l263.8 333.4c14.6 18.4 1.4 45.8-22.2 45.8H263c-23.6 0-36.8-27.4-22.2-45.8l263.8-333.4c10.4-13.2 30.4-13.2 40.8 0z"
+                                fill="currentColor" />
+                        </svg>
+                    </div>
+                    
+                    <div class="tool-btn" id="btn-comment" title="查看评论"
+                        onclick="toggleComments()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                            <path
+                                d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H6L4 18V4H20V16Z"
+                                fill="currentColor" />
+                        </svg>
+                    </div>
+                    
+                    <div class="tool-btn" id="btn-share" title="分享"
+                        onclick="navigator.share({title: document.title, url: window.location.href})">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                            <path
+                                d="M18 16.08C17.24 16.08 16.56 16.38 16.04 16.85L8.91 12.7C8.96 12.47 9 12.24 9 12C9 11.76 8.96 11.53 8.91 11.3L15.96 7.19C16.5 7.69 17.21 8 18 8C19.66 8 21 6.66 21 5C21 3.34 19.66 2 18 2C16.34 2 15 3.34 15 5C15 5.24 15.04 5.47 15.09 5.7L8.04 9.81C7.5 9.31 6.79 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.79 15 7.5 14.69 8.04 14.19L15.16 18.34C15.11 18.55 15.08 18.77 15.08 19C15.08 20.61 16.39 21.92 18 21.92C19.61 21.92 20.92 20.61 20.92 19C20.92 17.39 19.61 16.08 18 16.08Z"
+                                fill="currentColor" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            
+    <script src="/js/candy2.js"></script>
+</body>
+
+</html>

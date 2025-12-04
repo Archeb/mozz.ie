@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>水 on 蚊帐</title>
+    <link>https://mozz.ie/categories/%E6%B0%B4/</link>
+    <description>Recent content in 水 on 蚊帐</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 29 Nov 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://mozz.ie/categories/%E6%B0%B4/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>修复 Edge/Chrome 在 GNOME 分数缩放下的窗口位置问题</title>
+      <link>https://mozz.ie/posts/fix-fractional-scaling-edge-chrome-position/</link>
+      <pubDate>Sat, 27 Nov 2021 00:00:00 +0000</pubDate>
+      <guid>https://mozz.ie/posts/fix-fractional-scaling-edge-chrome-position/</guid>
+      <description>&lt;p&gt;从上周开始，&lt;a href=&#34;https://www.youtube.com/watch?v=0506yDSgU7M&#34;&gt;老莱弄了个“Daily Driver CHALLENGE”&lt;/a&gt;的挑战，还弄出了装个 Steam 把桌面卸掉了的笑话，弄得众人都发笑起来 —— 当然，笑的是 Pop!_OS，不是老莱。毕竟能让一个普通用户装个包就自动把桌面卸掉，怎么想都不合理。&lt;/p&gt;&lt;p&gt;于是从11月22日开始，我也学老莱进行了 Linux 挑战，把 Linux（确切地说是 Ubuntu 21.10）作为台式的主力系统使用30天。更多细节暂时按下不表，改日再写文章细细道来。这篇文章是要介绍分数缩放下 GNOME 的一个坑，并且给出解决办法。&lt;/p&gt;&lt;p&gt;分数缩放引发的各种BUG是咱们的老熟人了，不管是Windows还是Linux，你要是但敢开125%或者150%或者225%这种缩放，那就等着被无穷无尽的BUG淹没吧：轻则画面模糊，重则弄崩桌面。这次遇到的问题是“越开越小的窗口”：在 非整数倍缩放的时候。Edge 没办法正确记忆窗口大小。准确地说，他记忆了，然后打开的时候忘了按倍数缩放...结果关了在打开，越打开越小... 看下面的视频你就明白了&lt;/p&gt;&lt;!--kg-card-begin: html--&gt;&lt;video autoplay=&#34;autoplay&#34; loop=&#34;loop&#34; controls=&#34;controls&#34;&gt;&lt;source src=&#34;../assets/images/2021/edgebug.mp4&#34; type=&#34;video/mp4&#34;&gt;&lt;/video&gt;&lt;!--kg-card-end: html--&gt;&lt;p&gt;一开始我写了个脚本用 wmctrl 在 Edge 打开的时候自动把窗口放大到原来的2倍，但是如果关闭前Edge窗口为最大化状态，再次启动时就没办法放大，因为本来就是最大化。所以换了一个思路，直接修改Edge的配置文件里记录的窗口大小和位置，启动前修改好或者关闭后修改都行。&lt;/p&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;#!/bin/bash&#xA;wininfo=$(cat ~/.config/microsoft-edge/Default/Preferences)&#xA;top=$(jq -r .browser.window_placement.top &amp;lt;&amp;lt;&amp;lt; &#34;$wininfo&#34;)&#xA;bottom=$(jq -r .browser.window_placement.bottom &amp;lt;&amp;lt;&amp;lt; &#34;$wininfo&#34;)&#xA;left=$(jq -r .browser.window_placement.left &amp;lt;&amp;lt;&amp;lt; &#34;$wininfo&#34;)&#xA;right=$(jq -r .browser.window_placement.right &amp;lt;&amp;lt;&amp;lt; &#34;$wininfo&#34;)&#xA;#echo $top,$bottom,$left,$right&#xA;if [[ ! $top -le 0 ]]; then&#xA;  top=$((top*2))&#xA;else&#xA;  top=$((top/2))&#xA;fi&#xA;if [[ ! $left -le 0 ]]; then&#xA;  left=$((left*2))&#xA;else&#xA;  left=$((left/2))&#xA;fi&#xA;cat ~/.config/microsoft-edge/Default/Preferences | jq &#39;.browser.window_placement.top=&#39;$top&#39; | .browser.window_placement.left=&#39;$left&#39; | .browser.window_placement.right=&#39;$((right*2))&#39; | .browser.window_placement.bottom=&#39;$((bottom/100*199)) &amp;gt; ~/.config/microsoft-edge/Default/PreferencesGen&#xA;mv  ~/.config/microsoft-edge/Default/PreferencesGen  ~/.config/microsoft-edge/Default/Preferences&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;想办法让上面的代码在 Edge 关闭后或者启动前运行即可，我是直接改了 /usr/bin/microsoft-edge 这个脚本。希望这个 BUG 能早日被修复。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
