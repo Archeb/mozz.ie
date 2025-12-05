@@ -419,24 +419,30 @@
                         <style>
 
     .cards{
-    	margin:20px 0;
-    	display:flex;
-        flex-wrap:wrap;
-        justify-content: center;
+    	margin: 20px 0;
+        display: grid;
+        grid: auto-flow / 1fr 1fr;
     }
     .link-card {
-        display: flex!important;
+        display: flex !important;
+        flex-direction: column;
+        text-align: center;
         align-items: center;
         border-radius: 20px;
-    	transition: all 0.3s !important;
-        width:360px;
-    	text-decoration:none;
-        box-shadow:none!important;
-        margin:0;
-        padding:4px 20px;
+        transition: all 0.3s !important;
+        box-shadow: 5px 5px 10px rgba(32, 32, 32, .01);
+        text-decoration: none;
+        color: #333 !important;
+        justify-content: center;
+        margin: 0;
+        background-color: white;
+        border: none !important;
+        padding: 10px 20px!important;
     }
     .link-card:hover {
-        transform: translate(1px,-2px);
+        box-shadow: 5px 5px 10px rgba(32, 32, 32, .01)!important;
+        border-radius:20px!important;
+        background-color: #fff !important;
     }
     .link-card:active {
         transform: translate(0px,0px)!important;
@@ -448,11 +454,11 @@
         height: 75px;
         width: 75px;
         border-radius: 50%;
+        box-shadow: none;
     }
     
     .link-card .meta {
         margin-top:-10px;
-        margin-left: 20px;
     }
     
     .link-card .meta .name {
@@ -461,14 +467,6 @@
     }
     .link-card .meta .description {
         font-weight: 200;
-    }
-    @media (max-width: 991px){
-        .link-card{
-            width:100%;
-        }
-        .link-card .meta .name{
-            font-size:1.2rem;
-        }
     }
 </style>
 <div class="cards"><!--kg-card-end: html--><!--kg-card-begin: html--><a href="https://www.angelic47.com/" target="_blank" class="link-card"><div class="avatar"><img src="https://gravatar.globalslb.net/avatar/af12f24d493e12b714cb70f3c7b3662e?s=500&amp;r=X&amp;d="></div><div class="meta"><div class="name">Angelic47's Home</div><div class="description">我是群底层のlowb 混子～啥都不会 (x</div></div></a>
