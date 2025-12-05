@@ -3,19 +3,25 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://mozz.ie/categories/</loc>
-    <lastmod>2025-04-19T00:00:00+00:00</lastmod>
+    <lastmod>2025-12-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://mozz.ie/posts/</loc>
-    <lastmod>2025-04-19T00:00:00+00:00</lastmod>
+    <lastmod>2025-12-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mozz.ie/posts/xiaomi-yu7-experience/</loc>
+    <lastmod>2025-12-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mozz.ie/categories/%E7%94%9F%E6%B4%BB/</loc>
+    <lastmod>2025-12-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mozz.ie/</loc>
+    <lastmod>2025-12-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://mozz.ie/categories/%E6%8A%80%E6%9C%AF/</loc>
     <lastmod>2025-04-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://mozz.ie/posts/wdm-custom-combo-boardband/</loc>
     <lastmod>2025-04-19T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://mozz.ie/</loc>
-    <lastmod>2025-11-30T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://mozz.ie/posts/homeassistant-integration-writeup/</loc>
     <lastmod>2025-03-22T00:00:00+00:00</lastmod>
